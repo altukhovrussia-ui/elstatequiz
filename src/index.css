@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+/* ── Steppe Font Family ── */
+@font-face {
+  font-family: "Steppe";
+  src: url("./fonts/Steppe-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Steppe";
+  src: url("./fonts/Steppe-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Steppe";
+  src: url("./fonts/Steppe-Book.ttf") format("truetype");
+  font-weight: 350;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Steppe";
+  src: url("./fonts/Steppe-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Steppe";
+  src: url("./fonts/Steppe-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Steppe";
+  src: url("./fonts/Steppe-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Steppe";
+  src: url("./fonts/Steppe-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Steppe";
+  src: url("./fonts/Steppe-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Steppe";
+  src: url("./fonts/Steppe-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-serif: "Steppe", Georgia, ui-serif, serif;
+  --font-sans: "Steppe", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --color-brand-gold: #957e66;
+  --color-brand-gold-dark: #8d7348;
+  --color-brand-beige: #b8a382;
+  --color-brand-beige-light: #f5f0eb;
+  --color-brand-gray: #7c7c7c;
+  --color-brand-gray-dark: #5f5f5f;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ── Global Resets ── */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-brand-beige-light);
+  color: #000000;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Active CTA buttons: soft rounded corners */
+button, a.btn {
+  border-radius: 8px !important;
+}
+
+/* ── Quiz Card Interactions ── */
+.quiz-card {
+  transition: transform 0.2s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.quiz-card:active {
+  transform: scale(0.97);
+}
+
+/* ── Roulette Track ── */
+.roulette-track {
+  will-change: transform;
+}
+
+/* ── Mystery Card Reveal ── */
+.card-reveal {
+  animation: revealPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes revealPop {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ── Swipe hand hint animation ── */
+@keyframes swipeHint {
+  0%, 100% { transform: translateX(0); opacity: 0.6; }
+  50% { transform: translateX(20px); opacity: 1; }
+}
+.swipe-hint {
+  animation: swipeHint 2s ease-in-out infinite;
+}
