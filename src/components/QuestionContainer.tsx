@@ -178,7 +178,7 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
 
     // Use smaller radius on mobile
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
-    const radius = isMobile ? 110 : 170;
+    const radius = isMobile ? 140 : 200;
     const translateX = Math.sin(radian) * radius;
     const translateZ = Math.cos(radian) * radius - radius;
     const scale = 0.65 + 0.35 * ((translateZ + radius) / (radius * 2));
@@ -285,7 +285,7 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
                         key={`${currentIndex}-${i}`}
                         className="absolute"
                         style={{
-                          width: 'min(180px, 40vw)',
+                          width: 'min(240px, 55vw)',
                           zIndex: transform.zIndex,
                         }}
                         animate={{
@@ -305,22 +305,17 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
                           onClick={() => handleCardClick(i)}
                           className="bg-white rounded-xl border border-black/8 overflow-hidden shadow-lg"
                         >
-                          {/* Icon area — strict 4:5 via padding trick */}
-                          <div className="relative w-full" style={{ paddingBottom: '100%' }}>
+                          {/* Icon area */}
+                          <div className="relative w-full" style={{ paddingBottom: '75%' }}>
                             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand-beige-light/60 to-white">
-                              <IconForQuestion className="w-8 h-8 md:w-12 md:h-12 text-brand-gold/40 stroke-[1]" />
+                              <IconForQuestion className="w-10 h-10 md:w-14 md:h-14 text-brand-gold/40 stroke-[1]" />
                             </div>
                           </div>
-                          {/* Text area */}
-                          <div className="px-3 pb-3 pt-2 border-t border-black/5">
-                            <h4 className="font-serif text-xs md:text-sm font-medium text-black leading-snug mb-0.5">
+                          {/* Text area — single line */}
+                          <div className="px-3 md:px-4 pb-3 pt-2 border-t border-black/5">
+                            <h4 className="font-serif text-sm md:text-base font-medium text-black leading-tight truncate">
                               {ans}
                             </h4>
-                            {description && (
-                              <p className="text-[9px] md:text-[10px] text-brand-gray font-light leading-relaxed line-clamp-2 hidden md:block">
-                                {description}
-                              </p>
-                            )}
                           </div>
                         </SpotlightCard>
                       </motion.div>
