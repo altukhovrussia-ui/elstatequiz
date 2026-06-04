@@ -175,21 +175,29 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
     };
   };
 
-  // Touch/drag handling
+  // Touch/drag handling — prevent page scroll
   const dragStartX = useRef(0);
+  const isDragging = useRef(false);
   const handleTouchStart = (e: React.TouchEvent) => {
     dragStartX.current = e.touches[0].clientX;
+    isDragging.current = true;
+  };
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (isDragging.current) {
+      e.preventDefault();
+    }
   };
   const handleTouchEnd = (e: React.TouchEvent) => {
+    isDragging.current = false;
     const diff = e.changedTouches[0].clientX - dragStartX.current;
-    if (Math.abs(diff) > 50) {
+    if (Math.abs(diff) > 40) {
       rotate(diff > 0 ? -1 : 1);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-8 md:p-12 bg-brand-beige-light">
-      <div className="w-full max-w-2xl">
+    <div className="h-screen flex flex-col items-center px-4 py-4 md:py-8 md:px-12 bg-brand-beige-light overflow-hidden">
+      <div className="w-full max-w-2xl flex flex-col flex-1 min-h-0">
         {/* Top bar */}
         <div className="flex justify-between items-center mb-5">
           <span className="text-brand-gray-dark text-sm uppercase tracking-[0.15em] font-semibold">
@@ -199,7 +207,7 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
         </div>
 
         {/* Progress bar */}
-        <div className="w-full h-[2px] bg-black/10 mb-8 relative">
+        <div className="w-full h-[2px] bg-black/10 mb-4 md:mb-8 relative">
           <motion.div
             className="absolute left-0 top-0 h-full bg-brand-gold"
             animate={{ width: `${progressPercent}%` }}
@@ -208,7 +216,7 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
         </div>
 
         {/* Question */}
-        <div className="min-h-[64px] mb-6">
+        <div className="mb-3 md:mb-6">
           <AnimatePresence mode="wait">
             <motion.h2
               key={currentIndex}
@@ -216,7 +224,7 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
-              className="font-serif text-2xl md:text-3xl leading-[1.2] text-black font-medium text-center"
+              className="font-serif text-xl md:text-3xl leading-[1.2] text-black font-medium text-center"
             >
               {currentQuestion.question}
             </motion.h2>
@@ -231,9 +239,10 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="relative mx-auto mb-6"
-            style={{ height: 440, perspective: 800 }}
+            className="relative mx-auto mb-3 md:mb-6 flex-1 min-h-0"
+            style={{ maxHeight: 440, perspective: 800, touchAction: 'none' }}
             onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
             {/* Navigation arrows */}
@@ -261,7 +270,7 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
                     key={`${currentIndex}-${i}`}
                     className="absolute"
                     style={{
-                      width: 220,
+                      width: 'min(220px, 45vw)',
                       zIndex: transform.zIndex,
                     }}
                     animate={{
@@ -281,8 +290,8 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
                       onClick={() => handleCardClick(i)}
                       className="bg-white rounded-xl border border-black/8 overflow-hidden shadow-lg"
                     >
-                      <div className="flex items-center justify-center bg-gradient-to-br from-brand-beige-light/60 to-white p-6" style={{ height: 220 }}>
-                        <IconForQuestion className="w-14 h-14 text-brand-gold/40 stroke-[1]" />
+                      <div className="flex items-center justify-center bg-gradient-to-br from-brand-beige-light/60 to-white p-4 md:p-6 aspect-[4/5]">
+                        <IconForQuestion className="w-10 h-10 md:w-14 md:h-14 text-brand-gold/40 stroke-[1]" />
                       </div>
                       <div className="px-4 pb-4 pt-3 border-t border-black/5">
                         <h4 className="font-serif text-sm md:text-base font-medium text-black leading-snug mb-1">
@@ -303,7 +312,7 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
         </AnimatePresence>
 
         {/* Carousel dots */}
-        <div className="flex items-center justify-center gap-2 mb-6">
+        <div className="flex items-center justify-center gap-2 mb-3 md:mb-6">
           {currentQuestion.answers.map((_, i) => (
             <button
               key={i}
