@@ -2,7 +2,7 @@ import { ExternalLink } from 'lucide-react';
 
 export function Handoff() {
   return (
-    <div className="h-[100dvh] flex items-center justify-center px-5 py-10 md:p-12 bg-white text-center">
+    <div className="h-[100dvh] flex items-center justify-center px-5 py-10 md:p-12 bg-white text-center overflow-hidden">
       <div className="max-w-xl flex flex-col items-center gap-5 md:gap-6">
         <div className="w-16 h-[2px] bg-brand-gold" />
 

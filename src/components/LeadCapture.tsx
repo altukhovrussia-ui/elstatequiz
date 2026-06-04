@@ -234,7 +234,7 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
 
             <button
               type="submit"
-              className="w-full mt-3 bg-brand-gold text-black py-4 font-semibold tracking-[0.1em] text-xs uppercase hover:bg-brand-gold-dark transition-colors"
+              className="w-full mt-3 bg-brand-gold text-black px-2 md:px-4 py-4 font-semibold tracking-normal md:tracking-[0.1em] text-[10px] md:text-xs uppercase hover:bg-brand-gold-dark transition-colors"
             >
               Получить индивидуальную подборку
             </button>

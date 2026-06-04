@@ -305,8 +305,8 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
                           onClick={() => handleCardClick(i)}
                           className="bg-white rounded-xl border border-black/8 overflow-hidden shadow-lg"
                         >
-                          {/* Icon area */}
-                          <div className="relative w-full" style={{ paddingBottom: '75%' }}>
+                          {/* Icon area — taller for 4:5 total */}
+                          <div className="relative w-full" style={{ paddingBottom: '105%' }}>
                             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand-beige-light/60 to-white">
                               <IconForQuestion className="w-10 h-10 md:w-14 md:h-14 text-brand-gold/40 stroke-[1]" />
                             </div>
@@ -334,21 +334,21 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
             </button>
           </div>
 
-          {/* Swipe hint — icon above text */}
+          {/* Swipe hint — right under cards */}
           {showHint && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center gap-1 py-1 text-brand-gray"
+              className="flex flex-col items-center justify-center gap-0.5 pt-1 pb-0 text-brand-gray"
             >
               <Hand className="w-4 h-4 swipe-hint" />
-              <span className="text-[10px] md:text-xs tracking-wider uppercase font-light">Листайте карточки</span>
+              <span className="text-[9px] md:text-xs tracking-wider uppercase font-light">Листайте карточки</span>
             </motion.div>
           )}
 
           {/* Dots */}
-          <div className="flex items-center justify-center gap-2 py-2">
+          <div className="flex items-center justify-center gap-2 py-1">
             {currentQuestion.answers.map((_, i) => (
               <button
                 key={i}
