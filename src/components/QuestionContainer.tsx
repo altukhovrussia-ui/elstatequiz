@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { DollarSign, Target, Timer, Shield, Home, ChevronLeft, ChevronRight } from 'lucide-react';
+import { DollarSign, Target, Timer, Shield, Home, ChevronLeft, ChevronRight, Hand } from 'lucide-react';
 import { questions } from '../data';
 
 const questionIcons = [DollarSign, Target, Timer, Shield, Home];
@@ -39,12 +39,14 @@ function SpotlightCard({
   isSelected,
   onClick,
   className = '',
+  ...rest
 }: {
   children: React.ReactNode;
   isActive: boolean;
   isSelected: boolean;
   onClick: () => void;
   className?: string;
+  [key: string]: any;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -72,7 +74,6 @@ function SpotlightCard({
           : ''
       }`}
     >
-      {/* Spotlight glow overlay */}
       {isHovered && (
         <div
           className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
@@ -81,7 +82,6 @@ function SpotlightCard({
           }}
         />
       )}
-      {/* Border glow on hover */}
       {isHovered && (
         <div
           className="pointer-events-none absolute inset-0 z-10 rounded-xl"
@@ -97,10 +97,9 @@ function SpotlightCard({
         />
       )}
       {children}
-      {/* Selected check */}
       {isSelected && (
-        <div className="absolute top-3 right-3 z-20 w-6 h-6 bg-brand-gold rounded-full flex items-center justify-center">
-          <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+        <div className="absolute top-2 right-2 z-20 w-5 h-5 bg-brand-gold rounded-full flex items-center justify-center">
+          <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
@@ -115,18 +114,38 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showHint, setShowHint] = useState(true);
 
   const currentQuestion = questions[currentIndex];
   const progressPercent = ((currentIndex) / questions.length) * 100;
   const IconForQuestion = questionIcons[currentIndex] || DollarSign;
   const totalCards = currentQuestion.answers.length;
 
-  // Rotate carousel
+  // Lock body scroll while quiz is active
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.top = '0';
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+    };
+  }, []);
+
+  // Hide hint after first interaction
+  useEffect(() => {
+    if (activeCardIndex !== 0 || selectedAnswer !== null) {
+      setShowHint(false);
+    }
+  }, [activeCardIndex, selectedAnswer]);
+
   const rotate = useCallback((direction: number) => {
     setActiveCardIndex(prev => (prev + direction + totalCards) % totalCards);
   }, [totalCards]);
 
-  // Select the front card
   const handleCardClick = useCallback((cardIndex: number) => {
     setSelectedAnswer(cardIndex);
   }, []);
@@ -150,20 +169,21 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
     }, 400);
   }, [selectedAnswer, answers, currentIndex, isTransitioning, onComplete]);
 
-  // Calculate 3D positions for the circular arrangement
+  // Responsive radius — smaller on mobile
   const getCardTransform = (index: number) => {
     const offset = ((index - activeCardIndex + totalCards) % totalCards);
-    // Positions: 0=front, 1=right, 2=back, 3=left
     const angleStep = 360 / totalCards;
     const angle = offset * angleStep;
     const radian = (angle * Math.PI) / 180;
 
-    const radius = 180;
+    // Use smaller radius on mobile
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+    const radius = isMobile ? 110 : 170;
     const translateX = Math.sin(radian) * radius;
     const translateZ = Math.cos(radian) * radius - radius;
     const scale = 0.65 + 0.35 * ((translateZ + radius) / (radius * 2));
     const zIndex = Math.round(scale * 10);
-    const opacity = offset === 2 ? 0.3 : 0.5 + 0.5 * scale;
+    const opacity = offset === 2 ? 0.2 : 0.4 + 0.6 * scale;
 
     return {
       x: translateX,
@@ -175,20 +195,15 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
     };
   };
 
-  // Touch/drag handling — prevent page scroll
+  // Touch handling
   const dragStartX = useRef(0);
-  const isDragging = useRef(false);
   const handleTouchStart = (e: React.TouchEvent) => {
     dragStartX.current = e.touches[0].clientX;
-    isDragging.current = true;
   };
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (isDragging.current) {
-      e.preventDefault();
-    }
+    e.preventDefault();
   };
   const handleTouchEnd = (e: React.TouchEvent) => {
-    isDragging.current = false;
     const diff = e.changedTouches[0].clientX - dragStartX.current;
     if (Math.abs(diff) > 40) {
       rotate(diff > 0 ? -1 : 1);
@@ -196,18 +211,21 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
   };
 
   return (
-    <div className="h-[100dvh] flex flex-col items-center px-4 py-4 md:py-8 md:px-12 bg-brand-beige-light overflow-hidden">
+    <div
+      className="h-[100dvh] flex flex-col items-center px-4 py-3 md:py-8 md:px-12 bg-brand-beige-light overflow-hidden"
+      style={{ touchAction: 'none' }}
+    >
       <div className="w-full max-w-2xl flex flex-col flex-1 min-h-0">
         {/* Top bar */}
-        <div className="flex justify-between items-center mb-5">
-          <span className="text-brand-gray-dark text-sm uppercase tracking-[0.15em] font-semibold">
+        <div className="flex justify-between items-center mb-3 md:mb-5">
+          <span className="text-brand-gray-dark text-xs md:text-sm uppercase tracking-[0.15em] font-semibold">
             Вопрос {currentIndex + 1}/{questions.length}
           </span>
-          <span className="font-serif text-sm tracking-[0.2em] text-brand-gray">ELSTATE</span>
+          <span className="font-serif text-xs md:text-sm tracking-[0.2em] text-brand-gray">ELSTATE</span>
         </div>
 
         {/* Progress bar */}
-        <div className="w-full h-[2px] bg-black/10 mb-4 md:mb-8 relative">
+        <div className="w-full h-[2px] bg-black/10 mb-3 md:mb-6 relative">
           <motion.div
             className="absolute left-0 top-0 h-full bg-brand-gold"
             animate={{ width: `${progressPercent}%` }}
@@ -216,7 +234,7 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
         </div>
 
         {/* Question */}
-        <div className="mb-3 md:mb-6">
+        <div className="mb-2 md:mb-4">
           <AnimatePresence mode="wait">
             <motion.h2
               key={currentIndex}
@@ -224,134 +242,158 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
-              className="font-serif text-xl md:text-3xl leading-[1.2] text-black font-medium text-center"
+              className="font-serif text-lg md:text-2xl lg:text-3xl leading-[1.2] text-black font-medium text-center"
             >
               {currentQuestion.question}
             </motion.h2>
           </AnimatePresence>
         </div>
 
-        {/* 3D Circular Carousel */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`carousel-${currentIndex}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="relative mx-auto mb-3 md:mb-6 flex-1 min-h-0"
-            style={{ maxHeight: 440, perspective: 800, touchAction: 'none' }}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-          >
-            {/* Navigation arrows */}
+        {/* Carousel area — takes remaining space */}
+        <div className="flex-1 min-h-0 flex flex-col">
+          {/* Navigation arrows + carousel */}
+          <div className="flex items-center flex-1 min-h-0">
+            {/* Left arrow */}
             <button
               onClick={() => rotate(-1)}
-              className="absolute left-0 md:-left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 flex items-center justify-center bg-white/80 backdrop-blur-sm border border-black/5 text-brand-gray hover:text-brand-gold hover:border-brand-gold/30 transition-all shadow-sm"
+              className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-white/80 backdrop-blur-sm border border-black/5 text-brand-gray hover:text-brand-gold hover:border-brand-gold/30 transition-all shadow-sm z-30 mr-1 md:mr-3"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
             </button>
+
+            {/* Carousel */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`carousel-${currentIndex}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="relative flex-1 h-full"
+                style={{ perspective: 800, touchAction: 'none' }}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
+                <div className="relative w-full h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
+                  {currentQuestion.answers.map((ans, i) => {
+                    const transform = getCardTransform(i);
+                    const description = answerDescriptions[currentIndex]?.[i] ?? null;
+
+                    return (
+                      <motion.div
+                        key={`${currentIndex}-${i}`}
+                        className="absolute"
+                        style={{
+                          width: 'min(180px, 40vw)',
+                          zIndex: transform.zIndex,
+                        }}
+                        animate={{
+                          x: transform.x,
+                          scale: transform.scale,
+                          opacity: transform.opacity,
+                        }}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 300,
+                          damping: 30,
+                        }}
+                      >
+                        <SpotlightCard
+                          isActive={transform.isFront}
+                          isSelected={selectedAnswer === i}
+                          onClick={() => handleCardClick(i)}
+                          className="bg-white rounded-xl border border-black/8 overflow-hidden shadow-lg"
+                        >
+                          {/* Icon area — strict 4:5 via padding trick */}
+                          <div className="relative w-full" style={{ paddingBottom: '100%' }}>
+                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand-beige-light/60 to-white">
+                              <IconForQuestion className="w-8 h-8 md:w-12 md:h-12 text-brand-gold/40 stroke-[1]" />
+                            </div>
+                          </div>
+                          {/* Text area */}
+                          <div className="px-3 pb-3 pt-2 border-t border-black/5">
+                            <h4 className="font-serif text-xs md:text-sm font-medium text-black leading-snug mb-0.5">
+                              {ans}
+                            </h4>
+                            {description && (
+                              <p className="text-[9px] md:text-[10px] text-brand-gray font-light leading-relaxed line-clamp-2 hidden md:block">
+                                {description}
+                              </p>
+                            )}
+                          </div>
+                        </SpotlightCard>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Right arrow */}
             <button
               onClick={() => rotate(1)}
-              className="absolute right-0 md:-right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 flex items-center justify-center bg-white/80 backdrop-blur-sm border border-black/5 text-brand-gray hover:text-brand-gold hover:border-brand-gold/30 transition-all shadow-sm"
+              className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-white/80 backdrop-blur-sm border border-black/5 text-brand-gray hover:text-brand-gold hover:border-brand-gold/30 transition-all shadow-sm z-30 ml-1 md:ml-3"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
             </button>
+          </div>
 
-            {/* Cards */}
-            <div className="relative w-full h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
-              {currentQuestion.answers.map((ans, i) => {
-                const transform = getCardTransform(i);
-                const description = answerDescriptions[currentIndex]?.[i] ?? null;
-
-                return (
-                  <motion.div
-                    key={`${currentIndex}-${i}`}
-                    className="absolute"
-                    style={{
-                      width: 'min(220px, 45vw)',
-                      zIndex: transform.zIndex,
-                    }}
-                    animate={{
-                      x: transform.x,
-                      scale: transform.scale,
-                      opacity: transform.opacity,
-                    }}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 300,
-                      damping: 30,
-                    }}
-                  >
-                    <SpotlightCard
-                      isActive={transform.isFront}
-                      isSelected={selectedAnswer === i}
-                      onClick={() => handleCardClick(i)}
-                      className="bg-white rounded-xl border border-black/8 overflow-hidden shadow-lg"
-                    >
-                      <div className="flex items-center justify-center bg-gradient-to-br from-brand-beige-light/60 to-white p-4 md:p-6 aspect-[4/5]">
-                        <IconForQuestion className="w-10 h-10 md:w-14 md:h-14 text-brand-gold/40 stroke-[1]" />
-                      </div>
-                      <div className="px-4 pb-4 pt-3 border-t border-black/5">
-                        <h4 className="font-serif text-sm md:text-base font-medium text-black leading-snug mb-1">
-                          {ans}
-                        </h4>
-                        {description && (
-                          <p className="text-[10px] md:text-[11px] text-brand-gray font-light leading-relaxed line-clamp-2">
-                            {description}
-                          </p>
-                        )}
-                      </div>
-                    </SpotlightCard>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Carousel dots */}
-        <div className="flex items-center justify-center gap-2 mb-3 md:mb-6">
-          {currentQuestion.answers.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveCardIndex(i)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                i === activeCardIndex
-                  ? 'bg-brand-gold w-6'
-                  : selectedAnswer === i
-                    ? 'bg-brand-gold/60'
-                    : 'bg-black/15 hover:bg-black/25'
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* Selected answer + Next */}
-        <div className="flex flex-col items-center gap-3">
-          {selectedAnswer !== null && (
+          {/* Swipe hint */}
+          {showHint && (
             <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex items-center justify-center gap-2 py-1 text-brand-gray"
             >
-              <span className="text-xs text-brand-gray uppercase tracking-wider">Выбрано: </span>
-              <span className="text-sm font-medium text-black">{currentQuestion.answers[selectedAnswer]}</span>
+              <Hand className="w-4 h-4 swipe-hint" />
+              <span className="text-[10px] md:text-xs tracking-wider uppercase font-light">Листайте карточки</span>
             </motion.div>
           )}
 
-          <button
-            onClick={handleNext}
-            disabled={selectedAnswer === null || isTransitioning}
-            className={`w-full max-w-sm py-4 font-semibold tracking-[0.1em] text-xs uppercase transition-all duration-300 ${
-              selectedAnswer !== null
-                ? 'bg-brand-gold text-white hover:bg-brand-gold-dark shadow-lg'
-                : 'bg-black/5 text-brand-gray cursor-not-allowed'
-            }`}
-          >
-            {currentIndex < questions.length - 1 ? 'Далее' : 'Узнать результат'}
-          </button>
+          {/* Dots */}
+          <div className="flex items-center justify-center gap-2 py-2">
+            {currentQuestion.answers.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveCardIndex(i)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  i === activeCardIndex
+                    ? 'bg-brand-gold w-5'
+                    : selectedAnswer === i
+                      ? 'bg-brand-gold/60'
+                      : 'bg-black/15 hover:bg-black/25'
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Selected + Next */}
+          <div className="flex flex-col items-center gap-2 pb-2">
+            {selectedAnswer !== null && (
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-center"
+              >
+                <span className="text-[10px] md:text-xs text-brand-gray uppercase tracking-wider">Выбрано: </span>
+                <span className="text-xs md:text-sm font-medium text-black">{currentQuestion.answers[selectedAnswer]}</span>
+              </motion.div>
+            )}
+
+            <button
+              onClick={handleNext}
+              disabled={selectedAnswer === null || isTransitioning}
+              className={`w-full max-w-sm py-3 md:py-4 font-semibold tracking-[0.1em] text-xs uppercase transition-all duration-300 ${
+                selectedAnswer !== null
+                  ? 'bg-brand-gold text-white hover:bg-brand-gold-dark shadow-lg'
+                  : 'bg-black/5 text-brand-gray cursor-not-allowed'
+              }`}
+            >
+              {currentIndex < questions.length - 1 ? 'Далее' : 'Узнать результат'}
+            </button>
+          </div>
         </div>
       </div>
     </div>
