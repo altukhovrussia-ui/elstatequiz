@@ -178,12 +178,12 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
 
     // Use smaller radius on mobile
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
-    const radius = isMobile ? 140 : 200;
+    const radius = isMobile ? 160 : 240;
     const translateX = Math.sin(radian) * radius;
     const translateZ = Math.cos(radian) * radius - radius;
-    const scale = 0.65 + 0.35 * ((translateZ + radius) / (radius * 2));
+    const scale = 0.55 + 0.45 * ((translateZ + radius) / (radius * 2));
     const zIndex = Math.round(scale * 10);
-    const opacity = offset === 2 ? 0.2 : 0.4 + 0.6 * scale;
+    const opacity = offset === 2 ? 0.15 : 0.35 + 0.65 * scale;
 
     return {
       x: translateX,
@@ -285,7 +285,7 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
                         key={`${currentIndex}-${i}`}
                         className="absolute"
                         style={{
-                          width: 'min(240px, 55vw)',
+                          width: 'min(320px, 75vw)',
                           zIndex: transform.zIndex,
                         }}
                         animate={{
@@ -334,13 +334,13 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
             </button>
           </div>
 
-          {/* Swipe hint */}
+          {/* Swipe hint — icon above text */}
           {showHint && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex items-center justify-center gap-2 py-1 text-brand-gray"
+              className="flex flex-col items-center justify-center gap-1 py-1 text-brand-gray"
             >
               <Hand className="w-4 h-4 swipe-hint" />
               <span className="text-[10px] md:text-xs tracking-wider uppercase font-light">Листайте карточки</span>
