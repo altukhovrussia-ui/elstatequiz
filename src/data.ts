@@ -12,6 +12,7 @@ export type Archetype = typeof archetypes[number];
 export interface Question {
   question: string;
   answers: string[];
+  images: string[];
 }
 
 export const questions: Question[] = [
@@ -22,6 +23,12 @@ export const questions: Question[] = [
       "$300 000 – $700 000",
       "$700 000 – $1 500 000",
       "От $1 500 000"
+    ],
+    images: [
+      "/quiz-images/money/300.png",
+      "/quiz-images/money/300-700.png",
+      "/quiz-images/money/700-1500.png",
+      "/quiz-images/money/1500000.png"
     ]
   },
   {
@@ -31,6 +38,12 @@ export const questions: Question[] = [
       "Перепродажа и заработок",
       "Релокация / жизнь в ОАЭ",
       "Диверсификация капитала"
+    ],
+    images: [
+      "/quiz-images/main goal/passive.png",
+      "/quiz-images/main goal/resale.png",
+      "/quiz-images/main goal/relocate.png",
+      "/quiz-images/main goal/diversify.png"
     ]
   },
   {
@@ -40,6 +53,12 @@ export const questions: Question[] = [
       "От 1 до 3 лет",
       "От 3 до 5 лет",
       "От 10 лет и дольше"
+    ],
+    images: [
+      "/quiz-images/horizon/1.png",
+      "/quiz-images/horizon/1-3.png",
+      "/quiz-images/horizon/3-5.png",
+      "/quiz-images/horizon/10+.png"
     ]
   },
   {
@@ -49,6 +68,12 @@ export const questions: Question[] = [
       "Максимальная доходность",
       "Престиж и статус",
       "Ликвидность (быстро продать если нужно)"
+    ],
+    images: [
+      "/quiz-images/priority/stability.png",
+      "/quiz-images/priority/max profit.png",
+      "/quiz-images/priority/status.png",
+      "/quiz-images/priority/liquidity.png"
     ]
   },
   {
@@ -58,6 +83,12 @@ export const questions: Question[] = [
       "Море и тишина",
       "Бизнес-среда",
       "Семья и комфорт"
+    ],
+    images: [
+      "/quiz-images/lifestyle/city.png",
+      "/quiz-images/lifestyle/sea.png",
+      "/quiz-images/lifestyle/business.png",
+      "/quiz-images/lifestyle/family.png"
     ]
   }
 ];

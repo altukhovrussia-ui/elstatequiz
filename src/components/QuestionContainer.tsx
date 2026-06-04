@@ -3,8 +3,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { DollarSign, Target, Timer, Shield, Home, ChevronLeft, ChevronRight, Hand } from 'lucide-react';
 import { questions } from '../data';
 
-const questionIcons = [DollarSign, Target, Timer, Shield, Home];
-
 const answerDescriptions: (string | null)[][] = [
   [null, null, null, null],
   [
@@ -118,7 +116,6 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
 
   const currentQuestion = questions[currentIndex];
   const progressPercent = ((currentIndex) / questions.length) * 100;
-  const IconForQuestion = questionIcons[currentIndex] || DollarSign;
   const totalCards = currentQuestion.answers.length;
 
   // Lock body scroll while quiz is active
@@ -305,10 +302,14 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
                           onClick={() => handleCardClick(i)}
                           className="bg-white rounded-xl border border-black/8 overflow-hidden shadow-lg"
                         >
-                          {/* Icon area — taller for 4:5 total */}
+                          {/* Image area — taller for 4:5 total */}
                           <div className="relative w-full" style={{ paddingBottom: '105%' }}>
-                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand-beige-light/60 to-white">
-                              <IconForQuestion className="w-10 h-10 md:w-14 md:h-14 text-brand-gold/40 stroke-[1]" />
+                            <div className="absolute inset-0 bg-brand-beige-light/20">
+                              <img 
+                                src={currentQuestion.images[i]} 
+                                alt={ans} 
+                                className="w-full h-full object-cover"
+                              />
                             </div>
                           </div>
                           {/* Text area — single line */}
