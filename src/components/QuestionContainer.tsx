@@ -196,7 +196,7 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
   };
 
   return (
-    <div className="h-screen flex flex-col items-center px-4 py-4 md:py-8 md:px-12 bg-brand-beige-light overflow-hidden">
+    <div className="h-[100dvh] flex flex-col items-center px-4 py-4 md:py-8 md:px-12 bg-brand-beige-light overflow-hidden">
       <div className="w-full max-w-2xl flex flex-col flex-1 min-h-0">
         {/* Top bar */}
         <div className="flex justify-between items-center mb-5">

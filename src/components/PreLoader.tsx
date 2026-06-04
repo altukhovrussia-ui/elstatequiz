@@ -10,7 +10,7 @@ export function PreLoader({ onComplete }: { onComplete: () => void }) {
   }, [onComplete]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-black">
+    <div className="h-[100dvh] flex flex-col items-center justify-center bg-black">
       <div className="font-serif text-2xl tracking-[0.3em] uppercase text-white mb-12">
         ELSTATE
       </div>

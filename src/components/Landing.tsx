@@ -7,7 +7,7 @@ export function Landing({ onStart }: { onStart: () => void }) {
   return (
     <div className="w-full flex flex-col bg-brand-beige-light text-black font-sans">
       {/* Hero Section — plain beige, no pattern */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center p-6 lg:p-12 text-center bg-brand-beige-light">
+      <section className="relative h-[100dvh] flex flex-col items-center justify-center p-6 lg:p-12 text-center bg-brand-beige-light">
         {/* Header */}
         <header className="absolute top-0 left-0 w-full z-50 flex justify-center items-center p-8 lg:px-16">
           <img src={elstateLogo} alt="Elstate" className="h-6 md:h-7" />

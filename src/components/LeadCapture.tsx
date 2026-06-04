@@ -90,43 +90,43 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 md:p-8 bg-black">
+    <div className="h-[100dvh] flex items-start md:items-center justify-center bg-black overflow-y-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="w-full max-w-lg bg-[#111111] border border-brand-gold/15 overflow-hidden"
+        className="w-full max-w-lg bg-[#111111] border border-brand-gold/15 overflow-hidden my-2 md:my-8 mx-4"
       >
         {/* Profile Header */}
-        <div className="relative px-8 pt-10 pb-8 text-center bg-gradient-to-b from-brand-gold/[0.06] to-transparent">
-          <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-brand-gold/10 border-2 border-brand-gold/30 flex items-center justify-center">
-            <span className="text-5xl">{data.emoji}</span>
+        <div className="relative px-6 md:px-8 pt-6 md:pt-10 pb-5 md:pb-8 text-center bg-gradient-to-b from-brand-gold/[0.06] to-transparent">
+          <div className="w-16 h-16 md:w-24 md:h-24 mx-auto mb-4 md:mb-6 rounded-full bg-brand-gold/10 border-2 border-brand-gold/30 flex items-center justify-center">
+            <span className="text-3xl md:text-5xl">{data.emoji}</span>
           </div>
-          <span className="text-brand-gold text-xs tracking-[0.3em] uppercase block mb-3 font-medium">
+          <span className="text-brand-gold text-[10px] md:text-xs tracking-[0.3em] uppercase block mb-2 md:mb-3 font-medium">
             Ваш архетип инвестора
           </span>
-          <h2 className="font-serif text-4xl md:text-5xl font-light text-white leading-tight">
+          <h2 className="font-serif text-3xl md:text-5xl font-light text-white leading-tight">
             {archetype}
           </h2>
         </div>
 
         {/* Traits badges */}
-        <div className="flex flex-wrap justify-center gap-2 px-8 pb-6">
+        <div className="flex flex-wrap justify-center gap-1.5 md:gap-2 px-5 md:px-8 pb-4 md:pb-6">
           {data.traits.map((trait, i) => (
-            <span key={i} className="px-4 py-1.5 border border-brand-gold/20 text-brand-gold text-[11px] tracking-wider uppercase font-medium">
+            <span key={i} className="px-3 md:px-4 py-1 md:py-1.5 border border-brand-gold/20 text-brand-gold text-[10px] md:text-[11px] tracking-wider uppercase font-medium">
               {trait}
             </span>
           ))}
         </div>
 
         {/* Profile description */}
-        <div className="px-8 pb-6">
-          <p className="text-white/70 text-sm leading-relaxed font-light text-center">{data.description}</p>
+        <div className="px-5 md:px-8 pb-4 md:pb-6">
+          <p className="text-white/70 text-xs md:text-sm leading-relaxed font-light text-center">{data.description}</p>
         </div>
 
         {/* Blurred teaser */}
-        <div className="px-8 pb-6">
-          <div className="relative overflow-hidden p-5 border border-brand-gold/10 bg-white/[0.02]">
+        <div className="px-5 md:px-8 pb-4 md:pb-6">
+          <div className="relative overflow-hidden p-4 md:p-5 border border-brand-gold/10 bg-white/[0.02]">
             <div className="flex items-center gap-3 mb-3">
               <MapPin className="w-4 h-4 text-brand-gold" />
               <span className="text-white/50 text-xs uppercase tracking-wider font-medium">Идеальные локации</span>
@@ -146,9 +146,9 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
         <div className="w-full h-px bg-brand-gold/10" />
 
         {/* Lead form */}
-        <div className="px-8 py-8">
-          <h3 className="text-center font-serif text-xl text-white font-light mb-2">Откройте полный профиль</h3>
-          <p className="text-center text-xs text-white/40 mb-8 font-light">Оставьте контакт — мы подберём проекты именно под ваш архетип</p>
+        <div className="px-5 md:px-8 py-5 md:py-8">
+          <h3 className="text-center font-serif text-lg md:text-xl text-white font-light mb-1 md:mb-2">Откройте полный профиль</h3>
+          <p className="text-center text-[10px] md:text-xs text-white/40 mb-5 md:mb-8 font-light">Оставьте контакт — мы подберём проекты именно под ваш архетип</p>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <input
