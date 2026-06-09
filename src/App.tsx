@@ -15,7 +15,7 @@ export default function App() {
   const [phase, setPhase] = useState<Phase>('landing');
   const [archetype, setArchetype] = useState<Archetype>('Арендодатель');
 
-  const handleQuizComplete = (quizAnswers: (number | number[])[]) => {
+  const handleQuizComplete = (quizAnswers: number[]) => {
     const result = calculateArchetype(quizAnswers);
     setArchetype(result);
     setPhase('calculating');

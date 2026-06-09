@@ -64,7 +64,7 @@ export function Calculation({ archetype, onComplete }: { archetype: string; onCo
   }, [targetIndex, easeOutHeavy, onComplete]);
 
   return (
-    <div className="h-[100dvh] flex flex-col items-center justify-center bg-brand-beige-light overflow-hidden relative">
+    <div className="h-[100dvh] flex flex-col items-center justify-center bg-black overflow-hidden relative">
       {/* Track container */}
       <div className="relative w-full flex items-center justify-center" style={{ height: 240 }}>
         {/* Center target line with glow */}

@@ -22,7 +22,6 @@ export const questions: Question[] = [
       "$700 000 – $1 500 000",
       "От $1 500 000",
     ],
-    multiSelect: true,
   },
   {
     question: "Какова ваша главная цель?",
@@ -84,19 +83,16 @@ const scoringMatrix: number[][][] = [
   ],
 ];
 
-export function calculateArchetype(answers: (number | number[])[]): Archetype {
+export function calculateArchetype(answers: number[]): Archetype {
   const scores = [0, 0, 0, 0]; // one per archetype
 
-  answers.forEach((answer, questionIndex) => {
-    const answerIndices = Array.isArray(answer) ? answer : [answer];
-    answerIndices.forEach(answerIndex => {
-      const points = scoringMatrix[questionIndex]?.[answerIndex];
-      if (points) {
-        points.forEach((p, archetypeIndex) => {
-          scores[archetypeIndex] += p;
-        });
-      }
-    });
+  answers.forEach((answerIndex, questionIndex) => {
+    const points = scoringMatrix[questionIndex]?.[answerIndex];
+    if (points) {
+      points.forEach((p, archetypeIndex) => {
+        scores[archetypeIndex] += p;
+      });
+    }
   });
 
   // Find the archetype with the highest score
