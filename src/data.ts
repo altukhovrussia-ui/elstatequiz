@@ -1,8 +1,8 @@
 export const archetypes = [
-  "Арендодатель",
+  "Рантье",
   "Флиппер",
-  "Резидент",
-  "Портфельный инвестор",
+  "Стратег",
+  "Релокант",
 ] as const;
 
 export type Archetype = typeof archetypes[number];
@@ -10,7 +10,6 @@ export type Archetype = typeof archetypes[number];
 export interface Question {
   question: string;
   answers: string[];
-  multiSelect?: boolean;
 }
 
 export const questions: Question[] = [
@@ -51,35 +50,35 @@ export const questions: Question[] = [
   },
 ];
 
-// Scoring matrix
-// Each answer gives points to: [Арендодатель, Флиппер, Резидент, Портфельный инвестор]
+// Scoring matrix based on calculation_new.numbers
+// Order: [Рантье, Флиппер, Стратег, Релокант]
 const scoringMatrix: number[][][] = [
-  // Q1: Бюджет (multi-select — all selected answers contribute)
+  // Q1: Бюджет
   [
-    [2, 2, 0, 0],  // до $300K — rental or flip entry-level
-    [2, 1, 1, 1],  // $300K–700K — versatile mid-range
-    [1, 0, 2, 2],  // $700K–1.5M — residential or portfolio
-    [0, 0, 2, 3],  // от $1.5M — premium residential or portfolio
+    [2, 2, 0, 0],  // До $300K
+    [2, 2, 1, 1],  // $300K–700K
+    [1, 1, 2, 2],  // $700K–1.5M
+    [0, 0, 3, 2],  // От $1.5M
   ],
-  // Q2: Цель (primary driver)
+  // Q2: Цель
   [
-    [4, 0, 0, 1],  // Сдача в аренду → Арендодатель
-    [0, 4, 0, 1],  // Перепродажа → Флиппер
-    [0, 0, 4, 0],  // Для себя → Резидент
+    [3, 0, 1, 0],  // Сдача в аренду
+    [0, 3, 2, 0],  // Перепродажа
+    [0, 0, 0, 3],  // Для себя
   ],
   // Q3: Тип недвижимости
   [
-    [3, 2, 0, 1],  // Апартаменты — rental/flip friendly
-    [1, 0, 3, 1],  // Таунхаус — residential
-    [0, 0, 3, 2],  // Вилла — residential/portfolio
-    [1, 1, 1, 3],  // Пентхаус — portfolio/premium
+    [2, 2, 1, 0],  // Апартаменты
+    [1, 0, 1, 2],  // Таунхаус
+    [0, 0, 2, 3],  // Вилла
+    [0, 1, 3, 0],  // Пентхаус
   ],
   // Q4: Район
   [
-    [1, 0, 3, 0],  // Семейный → Резидент
-    [2, 1, 1, 2],  // Первая береговая линия — rental/portfolio
-    [1, 3, 0, 2],  // Центр — flip/portfolio
-    [1, 1, 1, 3],  // Район не важен → portfolio diversifier
+    [1, 0, 0, 3],  // Семейный
+    [2, 2, 2, 1],  // Первая береговая линия
+    [0, 3, 2, 0],  // Центр
+    [1, 1, 2, 1],  // Район не важен
   ],
 ];
 
@@ -96,7 +95,7 @@ export function calculateArchetype(answers: number[]): Archetype {
   });
 
   // Find the archetype with the highest score
-  let maxScore = 0;
+  let maxScore = -1;
   let winnerIndex = 0;
   scores.forEach((score, index) => {
     if (score > maxScore) {

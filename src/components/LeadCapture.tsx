@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Lock, ChevronDown, Download } from 'lucide-react';
 
 const archetypeData: Record<string, { emoji: string; traits: string[]; description: string; features: string[]; expectedReturn: string }> = {
-  'Арендодатель': {
+  'Рантье': {
     emoji: '🏦',
     traits: ['Стабильность', 'Пассивный доход', 'Долгосрочность'],
     description: 'Ваш фокус — надёжный арендный доход. Вы предпочитаете проверенные локации с гарантированной доходностью.',
@@ -17,19 +17,19 @@ const archetypeData: Record<string, { emoji: string; traits: string[]; descripti
     features: ['ROI 20–40% за 1–3 года', 'Локации: Dubailand, JVC, MBR City', 'Off-plan объекты с рассрочкой', 'Быстрый выход из актива'],
     expectedReturn: '20–40% за цикл',
   },
-  'Резидент': {
+  'Стратег': {
+    emoji: '📊',
+    traits: ['Аналитика', 'Потенциал роста', 'Недооцененные районы'],
+    description: 'Вы ищете скрытые жемчужины и входите в проекты на ранних стадиях развития инфраструктуры.',
+    features: ['Рост цены 30–50% за 5 лет', 'Локации: Dubai South, Al Furjan, Meydan', 'Инвестиции в развивающиеся районы', 'Среднесрочная перспектива'],
+    expectedReturn: '12–15% годовых',
+  },
+  'Релокант': {
     emoji: '🌍',
     traits: ['Комфорт', 'ВНЖ', 'Семья'],
     description: 'Ваша цель — жизнь в ОАЭ. Вы ищете баланс между комфортом и инвестиционной привлекательностью.',
     features: ['ВНЖ при покупке от $205 000', 'Локации: Arabian Ranches, Dubai Hills', 'Инфраструктура: школы, парки, медицина', 'Потенциал роста капитала 15–25%'],
     expectedReturn: '15–25% рост капитала',
-  },
-  'Портфельный инвестор': {
-    emoji: '📊',
-    traits: ['Диверсификация', 'Премиум', 'Гибкость'],
-    description: 'Вы распределяете капитал по разным типам объектов и рынкам для максимальной защиты и роста.',
-    features: ['Микс аренды и перепродажи', 'Локации: Downtown, DIFC, Palm Jumeirah', 'Портфель из 2–4 объектов', 'Совокупная доходность 12–18%'],
-    expectedReturn: '12–18% совокупно',
   },
 };
 
@@ -55,7 +55,7 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
   const [phoneError, setPhoneError] = useState('');
   const [showCountryCodes, setShowCountryCodes] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const data = archetypeData[archetype] || archetypeData['Арендодатель'];
+  const data = archetypeData[archetype] || archetypeData['Рантье'];
 
   const validatePhone = (phone: string): boolean => {
     const digitsOnly = phone.replace(/[\s\-\(\)]/g, '');

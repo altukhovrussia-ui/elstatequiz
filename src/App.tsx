@@ -13,7 +13,7 @@ type Phase = 'landing' | 'preloader' | 'quiz' | 'calculating' | 'lead' | 'handof
 
 export default function App() {
   const [phase, setPhase] = useState<Phase>('landing');
-  const [archetype, setArchetype] = useState<Archetype>('Арендодатель');
+  const [archetype, setArchetype] = useState<Archetype>('Рантье');
 
   const handleQuizComplete = (quizAnswers: number[]) => {
     const result = calculateArchetype(quizAnswers);
