@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Lock, ChevronDown, Download, Phone } from 'lucide-react';
+import { Lock, ChevronDown, Download } from 'lucide-react';
 
 const archetypeData: Record<string, { emoji: string; traits: string[]; description: string; features: string[]; expectedReturn: string }> = {
   'Арендодатель': {
@@ -51,7 +51,7 @@ const countryCodes = [
 ];
 
 export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubmit: () => void }) {
-  const [formData, setFormData] = useState({ name: '', phone: '', countryCode: '+971', contactMethod: 'whatsapp' });
+  const [formData, setFormData] = useState({ name: '', phone: '', countryCode: '+7' });
   const [phoneError, setPhoneError] = useState('');
   const [showCountryCodes, setShowCountryCodes] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -239,26 +239,7 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
                 )}
               </div>
 
-              {/* Contact method toggle — WhatsApp, Telegram, Call */}
-              <div className="flex gap-4 md:gap-8 justify-center mt-1 flex-wrap">
-                {[
-                  { id: 'whatsapp', label: 'WhatsApp' },
-                  { id: 'telegram', label: 'Telegram' },
-                  { id: 'call', label: 'Звонок' },
-                ].map(m => (
-                  <label key={m.id} className="flex items-center gap-2 md:gap-3 cursor-pointer group">
-                    <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${formData.contactMethod === m.id ? 'border-brand-gold' : 'border-black/15 group-hover:border-brand-gold/50'}`}>
-                      {formData.contactMethod === m.id && <div className="w-2.5 h-2.5 bg-brand-gold rounded-full" />}
-                    </div>
-                    <input type="radio" name="contactMethod" value={m.id} onChange={() => setFormData({...formData, contactMethod: m.id})} className="hidden" />
-                    <span className={`text-xs md:text-sm ${formData.contactMethod === m.id ? 'text-black' : 'text-black/35'}`}>
-                      {m.id === 'call' && <Phone className="w-3 h-3 inline mr-1" />}
-                      {m.label}
-                    </span>
-                  </label>
-                ))}
-              </div>
-
+              {/* Contact methods removed as per request */}
               <button
                 type="submit"
                 className="w-full mt-3 bg-brand-gold text-white px-4 py-4 font-semibold tracking-normal md:tracking-[0.1em] text-[11px] md:text-xs uppercase hover:bg-brand-gold-dark transition-colors rounded-lg"

@@ -95,6 +95,8 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: (numbe
   }, [totalCards]);
 
   const handleCardClick = useCallback((cardIndex: number) => {
+    if (isTransitioning) return;
+
     if (isMultiSelect) {
       setMultiSelected(prev =>
         prev.includes(cardIndex)
@@ -103,8 +105,24 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: (numbe
       );
     } else {
       setSelectedAnswer(cardIndex);
+      setIsTransitioning(true);
+
+      const newAnswers = [...answers, cardIndex];
+      setAnswers(newAnswers);
+
+      setTimeout(() => {
+        if (currentIndex < questions.length - 1) {
+          setCurrentIndex(prev => prev + 1);
+          setActiveCardIndex(0);
+          setSelectedAnswer(null);
+          setMultiSelected([]);
+        } else {
+          onComplete(newAnswers);
+        }
+        setIsTransitioning(false);
+      }, 400);
     }
-  }, [isMultiSelect]);
+  }, [isMultiSelect, isTransitioning, answers, currentIndex, onComplete]);
 
   const handleNext = useCallback(() => {
     if (isTransitioning) return;
@@ -308,8 +326,8 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: (numbe
             })}
           </div>
 
-          {/* Selected + Next */}
-          <div className="flex flex-col items-center gap-2 pb-2">
+          {/* Selected + Next (only for multi-select) */}
+          <div className="flex flex-col items-center gap-2 pb-2 h-16">
             {hasSelection && (
               <motion.div
                 initial={{ opacity: 0, y: 6 }}
@@ -321,17 +339,19 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: (numbe
               </motion.div>
             )}
 
-            <button
-              onClick={handleNext}
-              disabled={!hasSelection || isTransitioning}
-              className={`w-full max-w-sm py-3 md:py-4 font-semibold tracking-[0.1em] text-xs uppercase transition-all duration-300 ${
-                hasSelection
-                  ? 'bg-brand-gold text-white hover:bg-brand-gold-dark shadow-lg'
-                  : 'bg-black/5 text-brand-gray cursor-not-allowed'
-              }`}
-            >
-              {currentIndex < questions.length - 1 ? 'Далее' : 'Узнать результат'}
-            </button>
+            {isMultiSelect && (
+              <button
+                onClick={handleNext}
+                disabled={!hasSelection || isTransitioning}
+                className={`w-full max-w-sm py-3 md:py-4 font-semibold tracking-[0.1em] text-xs uppercase transition-all duration-300 ${
+                  hasSelection
+                    ? 'bg-brand-gold text-white hover:bg-brand-gold-dark shadow-lg'
+                    : 'bg-black/5 text-brand-gray cursor-not-allowed'
+                }`}
+              >
+                {currentIndex < questions.length - 1 ? 'Далее' : 'Узнать результат'}
+              </button>
+            )}
           </div>
         </div>
       </div>
