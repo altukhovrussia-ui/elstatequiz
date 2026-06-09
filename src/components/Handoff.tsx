@@ -148,14 +148,14 @@ export function Handoff({ archetype }: { archetype: string }) {
           href="https://instagram.com/elstate_dubai"
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex flex-col items-center bg-black text-white px-10 py-3 hover:bg-zinc-800 transition-all duration-300 rounded-lg"
+          className="w-full max-w-xs mx-auto flex items-center justify-center gap-2 bg-white text-black px-6 py-3.5 font-semibold tracking-[0.08em] text-[10px] md:text-xs uppercase hover:bg-zinc-50 transition-colors rounded-lg shadow-sm border border-black/5"
         >
-          <span className="flex items-center gap-2 justify-center font-semibold tracking-[0.12em] text-xs uppercase">
-            Перейти в Instagram
-            <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </span>
-          <span className="text-white/20 text-[8px] tracking-[0.06em] font-normal mt-0.5">@elstate_dubai</span>
+          Перейти в Instagram
+          <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
         </a>
+        <p className="text-black/50 text-[10px] md:text-xs tracking-wide font-normal mt-2.5 lowercase">
+          @elstate_dubai
+        </p>
       </motion.div>
     </div>
   );
