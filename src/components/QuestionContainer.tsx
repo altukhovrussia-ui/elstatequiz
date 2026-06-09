@@ -252,10 +252,19 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
                           onClick={() => handleCardClick(i)}
                           className="bg-white rounded-xl border border-black/8 overflow-hidden shadow-lg"
                         >
-                          {/* Text-only card */}
-                          <div className="relative w-full flex items-center justify-center p-6 md:p-8" style={{ paddingBottom: '80%', paddingTop: 0 }}>
-                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand-beige-light/30 to-white px-4">
-                              <h4 className="font-serif text-base md:text-xl font-medium text-black leading-snug text-center">
+                          {/* Image + text card */}
+                          <div className="relative w-full" style={{ paddingBottom: '100%' }}>
+                            {currentQuestion.images?.[i] && (
+                              <img
+                                src={currentQuestion.images[i]}
+                                alt={ans}
+                                className="absolute inset-0 w-full h-full object-cover"
+                                loading="eager"
+                              />
+                            )}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                              <h4 className="font-serif text-base md:text-lg font-medium text-white leading-snug text-center drop-shadow-lg">
                                 {ans}
                               </h4>
                             </div>

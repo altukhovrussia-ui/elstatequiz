@@ -10,6 +10,7 @@ export type Archetype = typeof archetypes[number];
 export interface Question {
   question: string;
   answers: string[];
+  images: string[];
 }
 
 export const questions: Question[] = [
@@ -21,6 +22,12 @@ export const questions: Question[] = [
       "$700 000 – $1 500 000",
       "От $1 500 000",
     ],
+    images: [
+      "/quiz-images/money/300.webp",
+      "/quiz-images/money/300-700.webp",
+      "/quiz-images/money/700-1500.webp",
+      "/quiz-images/money/1500000.webp",
+    ],
   },
   {
     question: "Какова ваша главная цель?",
@@ -28,6 +35,11 @@ export const questions: Question[] = [
       "Сдача в аренду",
       "Перепродажа",
       "Для себя",
+    ],
+    images: [
+      "/quiz-images/goal/rent.webp",
+      "/quiz-images/goal/resale.webp",
+      "/quiz-images/goal/self.webp",
     ],
   },
   {
@@ -38,6 +50,12 @@ export const questions: Question[] = [
       "Вилла",
       "Пентхаус",
     ],
+    images: [
+      "/quiz-images/property/apartment.webp",
+      "/quiz-images/property/townhouse.webp",
+      "/quiz-images/property/villa.webp",
+      "/quiz-images/property/penthouse.webp",
+    ],
   },
   {
     question: "Какой район рассматриваете?",
@@ -47,8 +65,22 @@ export const questions: Question[] = [
       "Центр",
       "Район не важен",
     ],
+    images: [
+      "/quiz-images/area/family.webp",
+      "/quiz-images/area/sea.webp",
+      "/quiz-images/area/downtown.webp",
+      "/quiz-images/area/any.webp",
+    ],
   },
 ];
+
+// PDF guide names per archetype
+export const guideNames: Record<Archetype, string> = {
+  'Рантье': 'Как выбрать район в Дубае, где квартира будет сдаваться 365 дней в году',
+  'Флиппер': '3 жестких маркера проекта с потенциалом роста 25–40% до сдачи ключей',
+  'Стратег': '5 маркеров безопасного проекта для защиты капитала и долгосрочного роста',
+  'Релокант': 'Как выбрать идеальный дом в ОАЭ',
+};
 
 // Scoring matrix based on calculation_new.numbers
 // Order: [Рантье, Флиппер, Стратег, Релокант]
