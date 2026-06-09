@@ -1,35 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { DollarSign, Target, Timer, Shield, Home, ChevronLeft, ChevronRight, Hand } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Hand, Check } from 'lucide-react';
 import { questions } from '../data';
-
-const answerDescriptions: (string | null)[][] = [
-  [null, null, null, null],
-  [
-    'Стабильный арендный доход без лишних забот',
-    'Быстрая прибыль от перепродажи на этапе строительства',
-    'Новый дом и ВНЖ в ОАЭ для всей семьи',
-    'Распределение активов по разным рынкам',
-  ],
-  [
-    'Максимально быстрый результат',
-    'Краткосрочная стратегия с гибкостью',
-    'Среднесрочное планирование роста',
-    'Долгосрочная стабильная инвестиция',
-  ],
-  [
-    'Надёжность и предсказуемый доход',
-    'Высокий ROI любой ценой',
-    'Элитные объекты и премиум-локации',
-    'Возможность быстро выйти из актива',
-  ],
-  [
-    'Динамика мегаполиса и деловая среда',
-    'Спокойствие, природа и приватность',
-    'Нетворкинг и деловые возможности',
-    'Уют, школы и инфраструктура',
-  ],
-];
 
 function SpotlightCard({
   children,
@@ -37,14 +9,12 @@ function SpotlightCard({
   isSelected,
   onClick,
   className = '',
-  ...rest
 }: {
   children: React.ReactNode;
   isActive: boolean;
   isSelected: boolean;
   onClick: () => void;
   className?: string;
-  [key: string]: any;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -53,10 +23,7 @@ function SpotlightCard({
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
 
   return (
@@ -67,9 +34,7 @@ function SpotlightCard({
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
       className={`relative overflow-hidden cursor-pointer transition-all duration-500 ${className} ${
-        isSelected
-          ? 'ring-2 ring-brand-gold shadow-[0_0_30px_rgba(149,126,102,0.4)]'
-          : ''
+        isSelected ? 'ring-2 ring-brand-gold shadow-[0_0_30px_rgba(149,126,102,0.4)]' : ''
       }`}
     >
       {isHovered && (
@@ -80,41 +45,27 @@ function SpotlightCard({
           }}
         />
       )}
-      {isHovered && (
-        <div
-          className="pointer-events-none absolute inset-0 z-10 rounded-xl"
-          style={{
-            background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(149,126,102,0.25), transparent 50%)`,
-            mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-            maskComposite: 'exclude',
-            WebkitMaskComposite: 'xor',
-            padding: '1px',
-            borderRadius: '12px',
-          }}
-        />
-      )}
       {children}
       {isSelected && (
         <div className="absolute top-2 right-2 z-20 w-5 h-5 bg-brand-gold rounded-full flex items-center justify-center">
-          <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
+          <Check className="w-3 h-3 text-white" strokeWidth={3} />
         </div>
       )}
     </div>
   );
 }
 
-export function QuestionContainer({ onComplete }: { onComplete: (answers: number[]) => void }) {
+export function QuestionContainer({ onComplete }: { onComplete: (answers: (number | number[])[]) => void }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<number[]>([]);
+  const [answers, setAnswers] = useState<(number | number[])[]>([]);
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [multiSelected, setMultiSelected] = useState<number[]>([]);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showHint, setShowHint] = useState(true);
 
   const currentQuestion = questions[currentIndex];
+  const isMultiSelect = currentQuestion.multiSelect === true;
   const progressPercent = ((currentIndex) / questions.length) * 100;
   const totalCards = currentQuestion.answers.length;
 
@@ -134,24 +85,36 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
 
   // Hide hint after first interaction
   useEffect(() => {
-    if (activeCardIndex !== 0 || selectedAnswer !== null) {
+    if (activeCardIndex !== 0 || selectedAnswer !== null || multiSelected.length > 0) {
       setShowHint(false);
     }
-  }, [activeCardIndex, selectedAnswer]);
+  }, [activeCardIndex, selectedAnswer, multiSelected]);
 
   const rotate = useCallback((direction: number) => {
     setActiveCardIndex(prev => (prev + direction + totalCards) % totalCards);
   }, [totalCards]);
 
   const handleCardClick = useCallback((cardIndex: number) => {
-    setSelectedAnswer(cardIndex);
-  }, []);
+    if (isMultiSelect) {
+      setMultiSelected(prev =>
+        prev.includes(cardIndex)
+          ? prev.filter(i => i !== cardIndex)
+          : [...prev, cardIndex]
+      );
+    } else {
+      setSelectedAnswer(cardIndex);
+    }
+  }, [isMultiSelect]);
 
   const handleNext = useCallback(() => {
-    if (selectedAnswer === null || isTransitioning) return;
-    setIsTransitioning(true);
+    if (isTransitioning) return;
 
-    const newAnswers = [...answers, selectedAnswer];
+    const currentAnswer = isMultiSelect ? multiSelected : selectedAnswer;
+    if (isMultiSelect && multiSelected.length === 0) return;
+    if (!isMultiSelect && selectedAnswer === null) return;
+
+    setIsTransitioning(true);
+    const newAnswers = [...answers, currentAnswer!];
     setAnswers(newAnswers);
 
     setTimeout(() => {
@@ -159,53 +122,45 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
         setCurrentIndex(prev => prev + 1);
         setActiveCardIndex(0);
         setSelectedAnswer(null);
+        setMultiSelected([]);
       } else {
         onComplete(newAnswers);
       }
       setIsTransitioning(false);
     }, 400);
-  }, [selectedAnswer, answers, currentIndex, isTransitioning, onComplete]);
+  }, [selectedAnswer, multiSelected, answers, currentIndex, isTransitioning, isMultiSelect, onComplete]);
 
-  // Responsive radius — smaller on mobile
+  // Responsive radius
   const getCardTransform = (index: number) => {
     const offset = ((index - activeCardIndex + totalCards) % totalCards);
     const angleStep = 360 / totalCards;
     const angle = offset * angleStep;
     const radian = (angle * Math.PI) / 180;
 
-    // Use smaller radius on mobile
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
     const radius = isMobile ? 160 : 240;
     const translateX = Math.sin(radian) * radius;
     const translateZ = Math.cos(radian) * radius - radius;
     const scale = 0.55 + 0.45 * ((translateZ + radius) / (radius * 2));
     const zIndex = Math.round(scale * 10);
-    const opacity = offset === 2 ? 0.15 : 0.35 + 0.65 * scale;
+    const opacity = offset === Math.floor(totalCards / 2) ? 0.15 : 0.35 + 0.65 * scale;
 
-    return {
-      x: translateX,
-      z: translateZ,
-      scale,
-      zIndex,
-      opacity,
-      isFront: offset === 0,
-    };
+    return { x: translateX, z: translateZ, scale, zIndex, opacity, isFront: offset === 0 };
   };
 
   // Touch handling
   const dragStartX = useRef(0);
-  const handleTouchStart = (e: React.TouchEvent) => {
-    dragStartX.current = e.touches[0].clientX;
-  };
-  const handleTouchMove = (e: React.TouchEvent) => {
-    e.preventDefault();
-  };
+  const handleTouchStart = (e: React.TouchEvent) => { dragStartX.current = e.touches[0].clientX; };
+  const handleTouchMove = (e: React.TouchEvent) => { e.preventDefault(); };
   const handleTouchEnd = (e: React.TouchEvent) => {
     const diff = e.changedTouches[0].clientX - dragStartX.current;
-    if (Math.abs(diff) > 40) {
-      rotate(diff > 0 ? -1 : 1);
-    }
+    if (Math.abs(diff) > 40) rotate(diff > 0 ? -1 : 1);
   };
+
+  const hasSelection = isMultiSelect ? multiSelected.length > 0 : selectedAnswer !== null;
+  const selectionLabel = isMultiSelect
+    ? multiSelected.map(i => currentQuestion.answers[i]).join(', ')
+    : selectedAnswer !== null ? currentQuestion.answers[selectedAnswer] : '';
 
   return (
     <div
@@ -244,11 +199,15 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
               {currentQuestion.question}
             </motion.h2>
           </AnimatePresence>
+          {isMultiSelect && (
+            <p className="text-center text-[10px] md:text-xs text-brand-gray mt-1 tracking-wider uppercase">
+              Можно выбрать несколько
+            </p>
+          )}
         </div>
 
-        {/* Carousel area — takes remaining space */}
+        {/* Carousel area */}
         <div className="flex-1 min-h-0 flex flex-col">
-          {/* Navigation arrows + carousel */}
           <div className="flex items-center flex-1 min-h-0">
             {/* Left arrow */}
             <button
@@ -275,48 +234,29 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
                 <div className="relative w-full h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
                   {currentQuestion.answers.map((ans, i) => {
                     const transform = getCardTransform(i);
-                    const description = answerDescriptions[currentIndex]?.[i] ?? null;
+                    const isCardSelected = isMultiSelect ? multiSelected.includes(i) : selectedAnswer === i;
 
                     return (
                       <motion.div
                         key={`${currentIndex}-${i}`}
                         className="absolute"
-                        style={{
-                          width: 'min(320px, 75vw)',
-                          zIndex: transform.zIndex,
-                        }}
-                        animate={{
-                          x: transform.x,
-                          scale: transform.scale,
-                          opacity: transform.opacity,
-                        }}
-                        transition={{
-                          type: 'spring',
-                          stiffness: 300,
-                          damping: 30,
-                        }}
+                        style={{ width: 'min(320px, 75vw)', zIndex: transform.zIndex }}
+                        animate={{ x: transform.x, scale: transform.scale, opacity: transform.opacity }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                       >
                         <SpotlightCard
                           isActive={transform.isFront}
-                          isSelected={selectedAnswer === i}
+                          isSelected={isCardSelected}
                           onClick={() => handleCardClick(i)}
                           className="bg-white rounded-xl border border-black/8 overflow-hidden shadow-lg"
                         >
-                          {/* Image area — taller for 4:5 total */}
-                          <div className="relative w-full" style={{ paddingBottom: '105%' }}>
-                            <div className="absolute inset-0 bg-brand-beige-light/20">
-                              <img 
-                                src={currentQuestion.images[i]} 
-                                alt={ans} 
-                                className="w-full h-full object-cover"
-                              />
+                          {/* Text-only card */}
+                          <div className="relative w-full flex items-center justify-center p-6 md:p-8" style={{ paddingBottom: '80%', paddingTop: 0 }}>
+                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand-beige-light/30 to-white px-4">
+                              <h4 className="font-serif text-base md:text-xl font-medium text-black leading-snug text-center">
+                                {ans}
+                              </h4>
                             </div>
-                          </div>
-                          {/* Text area — single line */}
-                          <div className="px-3 md:px-4 pb-3 pt-2 border-t border-black/5">
-                            <h4 className="font-serif text-sm md:text-base font-medium text-black leading-tight truncate">
-                              {ans}
-                            </h4>
                           </div>
                         </SpotlightCard>
                       </motion.div>
@@ -335,7 +275,7 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
             </button>
           </div>
 
-          {/* Swipe hint — right under cards */}
+          {/* Swipe hint */}
           {showHint && (
             <motion.div
               initial={{ opacity: 0 }}
@@ -350,39 +290,42 @@ export function QuestionContainer({ onComplete }: { onComplete: (answers: number
 
           {/* Dots */}
           <div className="flex items-center justify-center gap-2 py-1">
-            {currentQuestion.answers.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveCardIndex(i)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  i === activeCardIndex
-                    ? 'bg-brand-gold w-5'
-                    : selectedAnswer === i
-                      ? 'bg-brand-gold/60'
-                      : 'bg-black/15 hover:bg-black/25'
-                }`}
-              />
-            ))}
+            {currentQuestion.answers.map((_, i) => {
+              const isCardSelected = isMultiSelect ? multiSelected.includes(i) : selectedAnswer === i;
+              return (
+                <button
+                  key={i}
+                  onClick={() => setActiveCardIndex(i)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    i === activeCardIndex
+                      ? 'bg-brand-gold w-5'
+                      : isCardSelected
+                        ? 'bg-brand-gold/60'
+                        : 'bg-black/15 hover:bg-black/25'
+                  }`}
+                />
+              );
+            })}
           </div>
 
           {/* Selected + Next */}
           <div className="flex flex-col items-center gap-2 pb-2">
-            {selectedAnswer !== null && (
+            {hasSelection && (
               <motion.div
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-center"
+                className="text-center max-w-sm"
               >
                 <span className="text-[10px] md:text-xs text-brand-gray uppercase tracking-wider">Выбрано: </span>
-                <span className="text-xs md:text-sm font-medium text-black">{currentQuestion.answers[selectedAnswer]}</span>
+                <span className="text-xs md:text-sm font-medium text-black">{selectionLabel}</span>
               </motion.div>
             )}
 
             <button
               onClick={handleNext}
-              disabled={selectedAnswer === null || isTransitioning}
+              disabled={!hasSelection || isTransitioning}
               className={`w-full max-w-sm py-3 md:py-4 font-semibold tracking-[0.1em] text-xs uppercase transition-all duration-300 ${
-                selectedAnswer !== null
+                hasSelection
                   ? 'bg-brand-gold text-white hover:bg-brand-gold-dark shadow-lg'
                   : 'bg-black/5 text-brand-gray cursor-not-allowed'
               }`}

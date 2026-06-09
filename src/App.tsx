@@ -13,11 +13,9 @@ type Phase = 'landing' | 'preloader' | 'quiz' | 'calculating' | 'lead' | 'handof
 
 export default function App() {
   const [phase, setPhase] = useState<Phase>('landing');
-  const [answers, setAnswers] = useState<number[]>([]);
-  const [archetype, setArchetype] = useState<Archetype>('Рантье');
+  const [archetype, setArchetype] = useState<Archetype>('Арендодатель');
 
-  const handleQuizComplete = (quizAnswers: number[]) => {
-    setAnswers(quizAnswers);
+  const handleQuizComplete = (quizAnswers: (number | number[])[]) => {
     const result = calculateArchetype(quizAnswers);
     setArchetype(result);
     setPhase('calculating');
@@ -27,7 +25,7 @@ export default function App() {
     <div className="w-full min-h-screen text-black relative">
       <AnimatePresence mode="wait">
         {phase === 'landing' && (
-          <motion.div 
+          <motion.div
             key="landing"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -39,7 +37,7 @@ export default function App() {
         )}
 
         {phase === 'preloader' && (
-          <motion.div 
+          <motion.div
             key="preloader"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -49,9 +47,9 @@ export default function App() {
             <PreLoader onComplete={() => setPhase('quiz')} />
           </motion.div>
         )}
-        
+
         {phase === 'quiz' && (
-          <motion.div 
+          <motion.div
             key="quiz"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -61,9 +59,9 @@ export default function App() {
             <QuestionContainer onComplete={handleQuizComplete} />
           </motion.div>
         )}
-        
+
         {phase === 'calculating' && (
-          <motion.div 
+          <motion.div
             key="calculating"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -73,9 +71,9 @@ export default function App() {
             <Calculation archetype={archetype} onComplete={() => setPhase('lead')} />
           </motion.div>
         )}
-        
+
         {phase === 'lead' && (
-          <motion.div 
+          <motion.div
             key="lead"
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -85,9 +83,9 @@ export default function App() {
             <LeadCapture archetype={archetype} onSubmit={() => setPhase('handoff')} />
           </motion.div>
         )}
-        
+
         {phase === 'handoff' && (
-          <motion.div 
+          <motion.div
             key="handoff"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

@@ -1,4 +1,4 @@
-import { Banknote, TrendingUp, Compass, Crown, Map, PieChart, MapPin, Clock, MessageSquare, UserCheck, Gift } from 'lucide-react';
+import { Banknote, TrendingUp, Map, PieChart, MapPin, Clock, MessageSquare, UserCheck, Gift } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Footer } from './Footer';
 import elstateLogo from '../assets/elstate-logo.svg';
@@ -33,7 +33,7 @@ export function Landing({ onStart }: { onStart: () => void }) {
           </button>
 
           <p className="text-base md:text-lg text-brand-gray-dark max-w-2xl mx-auto leading-relaxed font-light">
-            Пройдите тест из 5 вопросов и узнайте свою идеальную стратегию на рынке недвижимости ОАЭ.
+            Пройдите тест из 4 вопросов и узнайте свою идеальную стратегию на рынке недвижимости ОАЭ.
           </p>
         </div>
 
@@ -60,17 +60,15 @@ export function Landing({ onStart }: { onStart: () => void }) {
       {/* Archetype Preview */}
       <section className="py-24 lg:py-40 px-6 md:px-12 bg-white flex flex-col items-center">
         <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl uppercase tracking-tighter text-black mb-20 text-center font-medium">
-          6 типов инвесторов
+          4 профиля инвесторов
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16 max-w-7xl w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16 max-w-5xl w-full">
           {[
-            { title: 'Рантье', desc: 'Фокус на стабильном пассивном доходе от долгосрочной аренды.', icon: Banknote },
-            { title: 'Флиппер', desc: 'Быстрая перепродажа объектов на этапе строительства для максимизации прибыли.', icon: TrendingUp },
-            { title: 'Стратег', desc: 'Глубокий анализ рынка, поиск недооцененных районов с высоким потенциалом роста.', icon: Compass },
-            { title: 'Статусный', desc: 'Инвестиции в эксклюзивные и трофейные объекты премиум-класса.', icon: Crown },
-            { title: 'Релокант', desc: 'Покупка недвижимости для собственного проживания и получения ВНЖ.', icon: Map },
-            { title: 'Диверсификатор', desc: 'Распределение капитала для защиты активов и снижения рисков.', icon: PieChart },
+            { title: 'Арендодатель', desc: 'Фокус на стабильном пассивном доходе от долгосрочной аренды с доходностью 7–10% годовых.', icon: Banknote },
+            { title: 'Флиппер', desc: 'Быстрая перепродажа объектов на этапе строительства для максимизации прибыли до 40%.', icon: TrendingUp },
+            { title: 'Резидент', desc: 'Покупка недвижимости для собственного проживания, комфорта семьи и получения ВНЖ.', icon: Map },
+            { title: 'Портфельный инвестор', desc: 'Диверсификация капитала по типам объектов и локациям для защиты и роста активов.', icon: PieChart },
           ].map((item, i) => (
             <div key={i} className="flex flex-col border-t border-zinc-200 pt-8 group cursor-default">
               <item.icon className="w-8 h-8 text-brand-gold mb-8 stroke-[1.5] group-hover:-translate-y-2 transition-transform duration-500" />
@@ -105,7 +103,7 @@ export function Landing({ onStart }: { onStart: () => void }) {
             <h3 className="font-serif text-4xl md:text-5xl mb-16 text-black uppercase leading-[1.1] tracking-tight font-medium">Как это<br/>работает</h3>
             <div className="flex flex-col">
               {[
-                { icon: MessageSquare, text: 'Ответьте на 5 вопросов' },
+                { icon: MessageSquare, text: 'Ответьте на 4 вопроса' },
                 { icon: UserCheck, text: 'Получите свой профиль' },
                 { icon: Gift, text: 'Заберите топ-3 проекта под вашу стратегию' }
               ].map((item, i) => (

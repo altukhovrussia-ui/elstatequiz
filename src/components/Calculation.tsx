@@ -10,30 +10,24 @@ export function Calculation({ archetype, onComplete }: { archetype: string; onCo
   const CARD_WIDTH = 280;
   const CARD_GAP = 24;
   const CARD_STEP = CARD_WIDTH + CARD_GAP;
-  const TOTAL_DURATION = 5000; // ms
-  const CYCLE_COUNT = 6;
-  
-  // Build a repeating track with enough cards to never show empty space
+  const TOTAL_DURATION = 5000;
+  const CYCLE_COUNT = 8;
+
   const { trackItems, targetIndex } = useMemo(() => {
     const items: string[] = [];
-    // Create many cycles of shuffled archetypes
     for (let cycle = 0; cycle < CYCLE_COUNT; cycle++) {
       const shuffled = [...archetypes].sort(() => Math.random() - 0.5);
       items.push(...shuffled);
     }
-    // Place the winning archetype at a known position near the end
     const target = items.length;
     items.push(archetype);
-    // Add padding cards after
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 4; i++) {
       items.push(archetypes[Math.floor(Math.random() * archetypes.length)]);
     }
     return { trackItems: items, targetIndex: target };
   }, [archetype]);
 
-  // Custom easing with heavy deceleration (Swiss watch feel)
   const easeOutHeavy = useCallback((t: number): number => {
-    // Custom cubic bezier approximation with very heavy ease-out
     return 1 - Math.pow(1 - t, 4);
   }, []);
 
@@ -51,20 +45,16 @@ export function Calculation({ archetype, onComplete }: { archetype: string; onCo
       const progress = Math.min(elapsed / TOTAL_DURATION, 1);
       const eased = easeOutHeavy(progress);
       const x = -eased * totalTravel;
-      
       track.style.transform = `translateX(${x}px)`;
 
       if (progress < 1) {
         animationRef.current = requestAnimationFrame(animate);
       } else {
-        // Animation complete — reveal the winning card
         setTimeout(() => setRevealed(true), 300);
       }
     };
 
     animationRef.current = requestAnimationFrame(animate);
-
-    // Auto-advance to next phase
     const advanceTimer = setTimeout(() => onComplete(), TOTAL_DURATION + 1500);
 
     return () => {
@@ -74,17 +64,17 @@ export function Calculation({ archetype, onComplete }: { archetype: string; onCo
   }, [targetIndex, easeOutHeavy, onComplete]);
 
   return (
-    <div className="h-[100dvh] flex flex-col items-center justify-center bg-black overflow-hidden relative">
+    <div className="h-[100dvh] flex flex-col items-center justify-center bg-brand-beige-light overflow-hidden relative">
       {/* Track container */}
       <div className="relative w-full flex items-center justify-center" style={{ height: 240 }}>
         {/* Center target line with glow */}
-        <div 
+        <div
           className="absolute w-[2px] z-20 left-1/2 -translate-x-1/2"
           style={{
             top: '-10%',
             height: '120%',
             background: '#957e66',
-            boxShadow: '0 0 20px rgba(149,126,102,0.8), 0 0 40px rgba(149,126,102,0.4)',
+            boxShadow: '0 0 20px rgba(149,126,102,0.6), 0 0 40px rgba(149,126,102,0.3)',
           }}
         />
 
@@ -100,7 +90,7 @@ export function Calculation({ archetype, onComplete }: { archetype: string; onCo
             return (
               <div
                 key={i}
-                className="flex-shrink-0 flex items-center justify-center border border-brand-gold/20 bg-white/[0.03] backdrop-blur-sm overflow-hidden"
+                className="flex-shrink-0 flex items-center justify-center border border-brand-gold/20 bg-[#1a1a1a] overflow-hidden"
                 style={{ width: CARD_WIDTH, height: 180 }}
               >
                 {showName ? (
@@ -109,7 +99,7 @@ export function Calculation({ archetype, onComplete }: { archetype: string; onCo
                       {archetype}
                     </span>
                     <span className="text-brand-gold text-xs tracking-[0.2em] uppercase mt-3 block">
-                      Ваш архетип
+                      Ваш профиль
                     </span>
                   </div>
                 ) : (
