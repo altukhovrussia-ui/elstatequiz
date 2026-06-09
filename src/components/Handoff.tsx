@@ -53,6 +53,9 @@ export function Handoff({ archetype }: { archetype: string }) {
   return (
     <div className="h-[100dvh] flex flex-col items-center bg-brand-beige-light overflow-hidden px-4 py-5 md:py-8">
 
+      {/* Spacer to center content */}
+      <div className="flex-1" />
+
       {/* Header — pushed to top, big */}
       <motion.div
         initial={{ opacity: 0, y: 15 }}
@@ -126,7 +129,7 @@ export function Handoff({ archetype }: { archetype: string }) {
         </button>
       </motion.div>
 
-      {/* Spacer to push Instagram to bottom */}
+      {/* Spacer to push IG to bottom */}
       <div className="flex-1" />
 
       {/* Instagram CTA — pinned to bottom */}
@@ -145,13 +148,13 @@ export function Handoff({ archetype }: { archetype: string }) {
           href="https://instagram.com/elstate_dubai"
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex flex-col items-center bg-black text-white px-10 py-3 font-semibold tracking-[0.12em] text-xs uppercase hover:bg-zinc-800 transition-all duration-300 rounded-lg"
+          className="group inline-flex flex-col items-center bg-black text-white px-10 py-3 hover:bg-zinc-800 transition-all duration-300 rounded-lg"
         >
-          <span className="flex items-center gap-2 justify-center">
+          <span className="flex items-center gap-2 justify-center font-semibold tracking-[0.12em] text-xs uppercase">
             Перейти в Instagram
             <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </span>
-          <span className="text-white/30 text-[9px] tracking-[0.08em] font-normal mt-0.5 lowercase">@elstate_dubai</span>
+          <span className="text-white/20 text-[8px] tracking-[0.06em] font-normal mt-0.5">@elstate_dubai</span>
         </a>
       </motion.div>
     </div>
