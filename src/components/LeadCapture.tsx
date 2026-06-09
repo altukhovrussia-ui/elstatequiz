@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { ChevronDown, Lock, FileText, CreditCard } from 'lucide-react';
 import { guideNames } from '../data';
 import type { Archetype } from '../data';
+import elstateLogo from '../assets/elstate-logo.svg';
 
 const countryCodes = [
   { code: '+7', country: '🇷🇺 RU' },
@@ -63,7 +64,7 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
       >
         {/* Status Header */}
         <div className="relative px-5 md:px-8 pt-6 md:pt-10 pb-5 md:pb-8 text-center bg-gradient-to-b from-brand-gold/[0.06] to-transparent">
-          <div className="w-3 h-3 bg-green-500 rounded-full mx-auto mb-4 animate-pulse" />
+          <img src={elstateLogo} alt="Elstate" className="h-5 md:h-6 mx-auto mb-4" />
           <h2 className="font-serif text-xl md:text-2xl lg:text-3xl text-black font-medium leading-snug">
             Ваш профиль инвестора{' '}
             <span className="text-black/40">успешно сформирован.</span>
