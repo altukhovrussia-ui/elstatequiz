@@ -1,22 +1,53 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
+import { questions } from '../data';
 
 export function PreLoader({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    // Gather all image URLs from the quiz questions
+    const imageUrls = questions.flatMap(q => q.images || []);
+    
+    const preloadImage = (src: string) => {
+      return new Promise<void>((resolve) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => resolve();
+        img.onerror = () => resolve(); // Resolve on error so we don't block the app indefinitely
+      });
+    };
+
+    const imagePromises = imageUrls.map(src => preloadImage(src));
+    
+    let isImagesLoaded = false;
+    let isTimeUp = false;
+
+    Promise.all(imagePromises).then(() => {
+      isImagesLoaded = true;
+    });
+
     const duration = 2000;
     const start = Date.now();
 
     const tick = () => {
       const elapsed = Date.now() - start;
-      const p = Math.min((elapsed / duration) * 100, 100);
-      setProgress(p);
+      const timeProgress = Math.min((elapsed / duration) * 100, 100);
+      
+      if (timeProgress === 100) {
+        isTimeUp = true;
+      }
 
-      if (elapsed < duration) {
+      // If time is up but images are still loading, stall the progress bar at 95%
+      if (!isImagesLoaded && timeProgress >= 95) {
+        setProgress(95);
         requestAnimationFrame(tick);
-      } else {
+      } else if (isTimeUp && isImagesLoaded) {
+        setProgress(100);
         setTimeout(onComplete, 200);
+      } else {
+        setProgress(timeProgress);
+        requestAnimationFrame(tick);
       }
     };
 
