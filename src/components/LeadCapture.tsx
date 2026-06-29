@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { ChevronDown, Lock, CreditCard } from 'lucide-react';
+import { ChevronDown, Lock, FileText, CreditCard } from 'lucide-react';
+import { guideNames } from '../data';
 import type { Archetype } from '../data';
 import elstateLogo from '../assets/elstate-logo.svg';
 
@@ -21,19 +22,12 @@ const countryCodes = [
   { code: '+998', country: '🇺🇿 UZ' },
 ];
 
-const unlockTexts: Record<string, string> = {
-  'Рантье': 'Как выбрать район, где квартира сдается круглый год',
-  'Релокант': 'Персональная карточка инвестора и как вам выбрать идеальное жилье в Эмиратах',
-  'Стратег': 'Персональная карточка инвестора и какие 5 факторов безопасного проекта',
-  'Флиппер': 'Персональная карточка инвестора и 3 реальных фактора проекта с потенциалом роста 35-50%',
-};
-
 export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubmit: () => void }) {
   const [formData, setFormData] = useState({ name: '', phone: '', countryCode: '+7' });
   const [phoneError, setPhoneError] = useState('');
   const [showCountryCodes, setShowCountryCodes] = useState(false);
 
-  const unlockText = unlockTexts[archetype] || unlockTexts['Рантье'];
+  const guideName = guideNames[archetype as Archetype] || guideNames['Рантье'];
 
   const validatePhone = (phone: string): boolean => {
     const digitsOnly = phone.replace(/[\s\-\(\)]/g, '');
@@ -89,13 +83,26 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
             Оставьте свои контакты, чтобы моментально разблокировать:
           </p>
           <div className="flex flex-col gap-3">
-            {/* Combined Custom Item */}
+            {/* Item 1: Personal Card */}
             <div className="flex items-start gap-3 p-3 md:p-4 border border-brand-gold/15 bg-brand-beige-light/40 rounded-lg">
               <div className="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 rounded-lg bg-brand-gold/10 flex items-center justify-center">
                 <CreditCard className="w-4 h-4 text-brand-gold" />
               </div>
-              <div className="flex-1 min-w-0 flex items-center">
-                <p className="text-sm font-medium text-black leading-snug">{unlockText}</p>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-black leading-snug">Персональная карточка инвестора</p>
+                <p className="text-[11px] text-black/40 mt-0.5 font-light leading-snug">«{guideName}»</p>
+              </div>
+              <Lock className="w-3.5 h-3.5 text-brand-gold/40 flex-shrink-0 mt-1" />
+            </div>
+
+            {/* Item 2: General Projects Card */}
+            <div className="flex items-start gap-3 p-3 md:p-4 border border-brand-gold/15 bg-brand-beige-light/40 rounded-lg">
+              <div className="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 rounded-lg bg-brand-gold/10 flex items-center justify-center">
+                <FileText className="w-4 h-4 text-brand-gold" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-black leading-snug">Специальный PDF-Гайд</p>
+                <p className="text-[11px] text-black/40 mt-0.5 font-light leading-snug">«Проекты-лидеры для инвестиций - Июнь 2026»</p>
               </div>
               <Lock className="w-3.5 h-3.5 text-brand-gold/40 flex-shrink-0 mt-1" />
             </div>
