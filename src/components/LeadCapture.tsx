@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { ChevronDown, Lock, FileText, CreditCard } from 'lucide-react';
-import { guideNames } from '../data';
+import { ChevronDown, Lock, CreditCard } from 'lucide-react';
 import type { Archetype } from '../data';
 import elstateLogo from '../assets/elstate-logo.svg';
 
@@ -22,12 +21,19 @@ const countryCodes = [
   { code: '+998', country: '🇺🇿 UZ' },
 ];
 
+const unlockTexts: Record<string, string> = {
+  'Рантье': 'Как выбрать район, где квартира сдается круглый год',
+  'Релокант': 'Персональная карточка инвестора и как вам выбрать идеальное жилье в Эмиратах',
+  'Стратег': 'Персональная карточка инвестора и какие 5 факторов безопасного проекта',
+  'Флиппер': 'Персональная карточка инвестора и 3 реальных фактора проекта с потенциалом роста 35-50%',
+};
+
 export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubmit: () => void }) {
   const [formData, setFormData] = useState({ name: '', phone: '', countryCode: '+7' });
   const [phoneError, setPhoneError] = useState('');
   const [showCountryCodes, setShowCountryCodes] = useState(false);
 
-  const guideName = guideNames[archetype as Archetype] || guideNames['Рантье'];
+  const unlockText = unlockTexts[archetype] || unlockTexts['Рантье'];
 
   const validatePhone = (phone: string): boolean => {
     const digitsOnly = phone.replace(/[\s\-\(\)]/g, '');
@@ -65,20 +71,15 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
         {/* Status Header */}
         <div className="relative px-5 md:px-8 pt-6 md:pt-10 pb-5 md:pb-8 text-center bg-gradient-to-b from-brand-gold/[0.06] to-transparent">
           <img src={elstateLogo} alt="Elstate" className="h-5 md:h-6 mx-auto mb-4" />
-          <h2 className="font-serif text-xl md:text-2xl lg:text-3xl text-black font-medium leading-snug">
-            Ваш профиль инвестора{' '}
-            <span className="text-black/40">успешно сформирован.</span>
+          <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl text-black font-bold uppercase leading-snug">
+            Вы — {archetype}
           </h2>
-          <p className="mt-3 md:mt-4">
-            <span className="text-black/60 text-sm md:text-base font-light">Вы — </span>
-            <span className="font-serif text-brand-gold text-lg md:text-2xl font-medium">{archetype}</span>
-          </p>
         </div>
 
         {/* Description */}
         <div className="px-5 md:px-8 pb-4 md:pb-6">
-          <p className="text-black/50 text-xs md:text-sm leading-relaxed font-light text-center">
-            Анализ ваших ответов завершен. Узнайте, какая стратегия на рынке недвижимости Дубая принесёт вам максимальную доходность в текущем цикле.
+          <p className="text-black/70 text-xs md:text-sm leading-relaxed font-light text-center">
+            Анализ ваших ответов завершен Узнайте, какая стратегия на рынке недвижимости Дубая принесёт вам максимальную доходность в текущем цикле
           </p>
         </div>
 
@@ -88,25 +89,13 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
             Оставьте свои контакты, чтобы моментально разблокировать:
           </p>
           <div className="flex flex-col gap-3">
-            {/* Item 1: Investor Card */}
+            {/* Combined Custom Item */}
             <div className="flex items-start gap-3 p-3 md:p-4 border border-brand-gold/15 bg-brand-beige-light/40 rounded-lg">
               <div className="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 rounded-lg bg-brand-gold/10 flex items-center justify-center">
                 <CreditCard className="w-4 h-4 text-brand-gold" />
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-black leading-snug">Персональная Карточка Инвестора</p>
-                <p className="text-[11px] text-black/40 mt-0.5 font-light">С разбором ваших сильных сторон</p>
-              </div>
-              <Lock className="w-3.5 h-3.5 text-brand-gold/40 flex-shrink-0 mt-1" />
-            </div>
-            {/* Item 2: PDF Guide */}
-            <div className="flex items-start gap-3 p-3 md:p-4 border border-brand-gold/15 bg-brand-beige-light/40 rounded-lg">
-              <div className="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 rounded-lg bg-brand-gold/10 flex items-center justify-center">
-                <FileText className="w-4 h-4 text-brand-gold" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-black leading-snug">PDF-Гайд</p>
-                <p className="text-[11px] text-black/40 mt-0.5 font-light leading-snug">«{guideName}»</p>
+              <div className="flex-1 min-w-0 flex items-center">
+                <p className="text-sm font-medium text-black leading-snug">{unlockText}</p>
               </div>
               <Lock className="w-3.5 h-3.5 text-brand-gold/40 flex-shrink-0 mt-1" />
             </div>
