@@ -84,27 +84,45 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
           </p>
           <div className="flex flex-col gap-3">
             {/* Item 1: Personal Card */}
-            <div className="flex items-start gap-3 p-3 md:p-4 border border-brand-gold/15 bg-brand-beige-light/40 rounded-lg">
-              <div className="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 rounded-lg bg-brand-gold/10 flex items-center justify-center">
-                <CreditCard className="w-4 h-4 text-brand-gold" />
+            <div className="relative flex items-center gap-4 py-5 md:py-6 px-4 md:px-5 border border-brand-gold/20 rounded-xl overflow-hidden shadow-sm">
+              <div 
+                className="absolute inset-0 bg-[url('/bg/bg-1.webp')] bg-cover bg-center opacity-25 blur-[3px] scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/60" />
+
+              <div className="relative z-10 w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-xl bg-white shadow-sm border border-brand-gold/15 flex items-center justify-center">
+                <CreditCard className="w-5 h-5 text-brand-gold" />
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-black leading-snug">Персональная карточка инвестора</p>
-                <p className="text-[11px] text-black/40 mt-0.5 font-light leading-snug">«{guideName}»</p>
+              <div className="relative z-10 flex-1 min-w-0">
+                <p className="text-sm md:text-base font-bold text-black leading-snug">Персональная карточка инвестора</p>
+                <p className="text-[11px] md:text-xs text-black/70 mt-1 font-medium leading-snug">«{guideName}»</p>
               </div>
-              <Lock className="w-3.5 h-3.5 text-brand-gold/40 flex-shrink-0 mt-1" />
+              <div className="relative z-10 flex-shrink-0 ml-1">
+                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white shadow-sm border border-brand-gold/20 flex items-center justify-center">
+                  <Lock className="w-3.5 h-3.5 md:w-4 md:h-4 text-brand-gold/70" />
+                </div>
+              </div>
             </div>
 
             {/* Item 2: General Projects Card */}
-            <div className="flex items-start gap-3 p-3 md:p-4 border border-brand-gold/15 bg-brand-beige-light/40 rounded-lg">
-              <div className="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 rounded-lg bg-brand-gold/10 flex items-center justify-center">
-                <FileText className="w-4 h-4 text-brand-gold" />
+            <div className="relative flex items-center gap-4 py-5 md:py-6 px-4 md:px-5 border border-brand-gold/20 rounded-xl overflow-hidden shadow-sm">
+              <div 
+                className="absolute inset-0 bg-[url('/bg/bg-2.webp')] bg-cover bg-center opacity-25 blur-[3px] scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/60" />
+
+              <div className="relative z-10 w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-xl bg-white shadow-sm border border-brand-gold/15 flex items-center justify-center">
+                <FileText className="w-5 h-5 text-brand-gold" />
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-black leading-snug">Специальный PDF-Гайд</p>
-                <p className="text-[11px] text-black/40 mt-0.5 font-light leading-snug">«Проекты-лидеры для инвестиций - Июнь 2026»</p>
+              <div className="relative z-10 flex-1 min-w-0">
+                <p className="text-sm md:text-base font-bold text-black leading-snug">Специальный PDF-Гайд</p>
+                <p className="text-[11px] md:text-xs text-black/70 mt-1 font-medium leading-snug">«Проекты-лидеры для инвестиций - Июнь 2026»</p>
               </div>
-              <Lock className="w-3.5 h-3.5 text-brand-gold/40 flex-shrink-0 mt-1" />
+              <div className="relative z-10 flex-shrink-0 ml-1">
+                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white shadow-sm border border-brand-gold/20 flex items-center justify-center">
+                  <Lock className="w-3.5 h-3.5 md:w-4 md:h-4 text-brand-gold/70" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
