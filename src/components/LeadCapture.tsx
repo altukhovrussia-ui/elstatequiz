@@ -88,18 +88,18 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
               <div 
                 className="absolute inset-0 bg-[url('/bg/bg-1.webp')] bg-cover bg-center blur-[2px] scale-[1.03]"
               />
-              <div className="absolute inset-0 bg-white/35" />
+              <div className="absolute inset-0 bg-black/40" />
 
-              <div className="relative z-10 w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-xl bg-white shadow-sm border border-brand-gold/15 flex items-center justify-center">
+              <div className="relative z-10 w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-xl bg-white/10 backdrop-blur-md shadow-sm border border-white/20 flex items-center justify-center">
                 <CreditCard className="w-5 h-5 text-brand-gold" />
               </div>
               <div className="relative z-10 flex-1 min-w-0">
-                <p className="text-sm md:text-base font-bold text-black leading-snug">Персональная карточка инвестора</p>
-                <p className="text-[11px] md:text-xs text-black/70 mt-1 font-medium leading-snug">«{guideName}»</p>
+                <p className="text-sm md:text-base font-bold text-white leading-snug">Персональная карточка инвестора</p>
+                <p className="text-[11px] md:text-xs text-white/70 mt-1 font-medium leading-snug">«{guideName}»</p>
               </div>
               <div className="relative z-10 flex-shrink-0 ml-1">
-                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white shadow-sm border border-brand-gold/20 flex items-center justify-center">
-                  <Lock className="w-3.5 h-3.5 md:w-4 md:h-4 text-brand-gold/70" />
+                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white/10 backdrop-blur-md shadow-sm border border-white/20 flex items-center justify-center">
+                  <Lock className="w-3.5 h-3.5 md:w-4 md:h-4 text-brand-gold" />
                 </div>
               </div>
             </div>
@@ -109,18 +109,18 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
               <div 
                 className="absolute inset-0 bg-[url('/bg/bg-2.webp')] bg-cover bg-center blur-[2px] scale-[1.03]"
               />
-              <div className="absolute inset-0 bg-white/35" />
+              <div className="absolute inset-0 bg-black/40" />
 
-              <div className="relative z-10 w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-xl bg-white shadow-sm border border-brand-gold/15 flex items-center justify-center">
+              <div className="relative z-10 w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-xl bg-white/10 backdrop-blur-md shadow-sm border border-white/20 flex items-center justify-center">
                 <FileText className="w-5 h-5 text-brand-gold" />
               </div>
               <div className="relative z-10 flex-1 min-w-0">
-                <p className="text-sm md:text-base font-bold text-black leading-snug">Специальный PDF-Гайд</p>
-                <p className="text-[11px] md:text-xs text-black/70 mt-1 font-medium leading-snug">«Проекты-лидеры для инвестиций - Июнь 2026»</p>
+                <p className="text-sm md:text-base font-bold text-white leading-snug">Специальный PDF-Гайд</p>
+                <p className="text-[11px] md:text-xs text-white/70 mt-1 font-medium leading-snug">«Проекты-лидеры для инвестиций - Июнь 2026»</p>
               </div>
               <div className="relative z-10 flex-shrink-0 ml-1">
-                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white shadow-sm border border-brand-gold/20 flex items-center justify-center">
-                  <Lock className="w-3.5 h-3.5 md:w-4 md:h-4 text-brand-gold/70" />
+                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white/10 backdrop-blur-md shadow-sm border border-white/20 flex items-center justify-center">
+                  <Lock className="w-3.5 h-3.5 md:w-4 md:h-4 text-brand-gold" />
                 </div>
               </div>
             </div>
