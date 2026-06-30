@@ -86,9 +86,9 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
             {/* Item 1: Personal Card */}
             <div className="relative flex items-center gap-4 py-5 md:py-6 px-4 md:px-5 border border-brand-gold/20 rounded-xl overflow-hidden shadow-sm">
               <div 
-                className="absolute inset-0 bg-[url('/bg/bg-1.webp')] bg-cover bg-center blur-[3px] scale-[1.03]"
+                className="absolute inset-0 bg-[url('/bg/bg-1.webp')] bg-cover bg-center blur-[2px] scale-[1.03]"
               />
-              <div className="absolute inset-0 bg-white/70" />
+              <div className="absolute inset-0 bg-white/50" />
 
               <div className="relative z-10 w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-xl bg-white shadow-sm border border-brand-gold/15 flex items-center justify-center">
                 <CreditCard className="w-5 h-5 text-brand-gold" />
@@ -107,9 +107,9 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
             {/* Item 2: General Projects Card */}
             <div className="relative flex items-center gap-4 py-5 md:py-6 px-4 md:px-5 border border-brand-gold/20 rounded-xl overflow-hidden shadow-sm">
               <div 
-                className="absolute inset-0 bg-[url('/bg/bg-2.webp')] bg-cover bg-center blur-[3px] scale-[1.03]"
+                className="absolute inset-0 bg-[url('/bg/bg-2.webp')] bg-cover bg-center blur-[2px] scale-[1.03]"
               />
-              <div className="absolute inset-0 bg-white/70" />
+              <div className="absolute inset-0 bg-white/50" />
 
               <div className="relative z-10 w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-xl bg-white shadow-sm border border-brand-gold/15 flex items-center justify-center">
                 <FileText className="w-5 h-5 text-brand-gold" />
