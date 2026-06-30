@@ -88,7 +88,7 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
               <div 
                 className="absolute inset-0 bg-[url('/bg/bg-1.webp')] bg-cover bg-center blur-[2px] scale-[1.03]"
               />
-              <div className="absolute inset-0 bg-white/15" />
+              <div className="absolute inset-0 bg-white/35" />
 
               <div className="relative z-10 w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-xl bg-white shadow-sm border border-brand-gold/15 flex items-center justify-center">
                 <CreditCard className="w-5 h-5 text-brand-gold" />
@@ -109,7 +109,7 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
               <div 
                 className="absolute inset-0 bg-[url('/bg/bg-2.webp')] bg-cover bg-center blur-[2px] scale-[1.03]"
               />
-              <div className="absolute inset-0 bg-white/15" />
+              <div className="absolute inset-0 bg-white/35" />
 
               <div className="relative z-10 w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-xl bg-white shadow-sm border border-brand-gold/15 flex items-center justify-center">
                 <FileText className="w-5 h-5 text-brand-gold" />
