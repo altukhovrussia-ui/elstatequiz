@@ -6,8 +6,12 @@ export function PreLoader({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Gather all image URLs from the quiz questions
-    const imageUrls = questions.flatMap(q => q.images || []);
+    // Gather all image URLs from the quiz questions and add background images
+    const imageUrls = [
+      ...questions.flatMap(q => q.images || []),
+      '/bg/bg-1.webp',
+      '/bg/bg-2.webp'
+    ];
     
     const preloadImage = (src: string) => {
       return new Promise<void>((resolve) => {
