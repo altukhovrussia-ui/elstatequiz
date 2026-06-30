@@ -73,7 +73,7 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
         {/* Description */}
         <div className="px-5 md:px-8 pb-4 md:pb-6">
           <p className="text-black/70 text-xs md:text-sm leading-relaxed font-light text-center">
-            Анализ ваших ответов завершен Узнайте, какая стратегия на рынке недвижимости Дубая принесёт вам максимальную доходность в текущем цикле
+            Анализ ваших ответов завершен. Узнайте, какая стратегия на рынке недвижимости Дубая принесёт вам максимальную доходность в текущем цикле
           </p>
         </div>
 
