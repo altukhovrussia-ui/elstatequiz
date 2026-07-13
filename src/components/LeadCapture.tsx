@@ -37,7 +37,7 @@ export function LeadCapture({ archetype, quizAnswers, onSubmit }: { archetype: s
     ['Семейный', 'Первая береговая линия', 'Центр', 'Район не важен'],
   ];
 
-  const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyhszvI11SnYN3XXmwI7rWfeCsEaH92f48uK13SUiyunziX_IWkJkjqt0II7nThmqq3jw/exec';
+  const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxCKUMYwGETTOTLM5GwARYcQ5VDWO7-mtNntYY2wZUyE4Le5g2IcjrOMDbJCZ26q-7kvQ/exec';
 
   const validatePhone = (phone: string): boolean => {
     const digitsOnly = phone.replace(/[\s\-\(\)]/g, '');
