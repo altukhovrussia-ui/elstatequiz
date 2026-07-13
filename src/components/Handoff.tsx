@@ -133,10 +133,10 @@ export function Handoff({ archetype }: { archetype: string }) {
 
         <div>
           <p className="text-black/70 text-xs md:text-sm mb-2 font-semibold leading-snug">
-            «Проекты-лидеры для инвестиций - Июнь 2026»
+            «Проекты-лидеры для инвестиций - Июль 2026»
           </p>
           <a
-            href="/pdfs/Проекты-лидеры для инвестиций - Июнь 2026.pdf"
+            href="/pdfs/Проекты-лидеры для инвестиций - Июль 2026.pdf"
             download
             className="w-full flex items-center justify-center gap-2 bg-black text-white px-6 py-4 font-semibold tracking-[0.08em] text-xs uppercase hover:bg-zinc-800 transition-colors rounded-lg shadow-lg shadow-black/15"
           >
