@@ -22,12 +22,22 @@ const countryCodes = [
   { code: '+998', country: '🇺🇿 UZ' },
 ];
 
-export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubmit: () => void }) {
+export function LeadCapture({ archetype, quizAnswers, onSubmit }: { archetype: string; quizAnswers: number[]; onSubmit: () => void }) {
   const [formData, setFormData] = useState({ name: '', phone: '', countryCode: '+7' });
   const [phoneError, setPhoneError] = useState('');
   const [showCountryCodes, setShowCountryCodes] = useState(false);
 
   const guideName = guideNames[archetype as Archetype] || guideNames['Рантье'];
+
+  // Map answer indices to human-readable text for the spreadsheet
+  const answerLabels = [
+    ['До $300 000', '$300 000 – $700 000', '$700 000 – $1 500 000', 'От $1 500 000'],
+    ['Сдача в аренду', 'Перепродажа', 'Для себя'],
+    ['Апартаменты', 'Таунхаус', 'Вилла', 'Пентхаус'],
+    ['Семейный', 'Первая береговая линия', 'Центр', 'Район не важен'],
+  ];
+
+  const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyhszvI11SnYN3XXmwI7rWfeCsEaH92f48uK13SUiyunziX_IWkJkjqt0II7nThmqq3jw/exec';
 
   const validatePhone = (phone: string): boolean => {
     const digitsOnly = phone.replace(/[\s\-\(\)]/g, '');
@@ -51,6 +61,23 @@ export function LeadCapture({ archetype, onSubmit }: { archetype: string; onSubm
       return;
     }
     setPhoneError('');
+
+    // Send lead data to Google Sheet via GET (avoids Google Apps Script POST redirect issues)
+    const params = new URLSearchParams({
+      name: formData.name,
+      phone: `${formData.countryCode} ${formData.phone}`,
+      archetype: archetype,
+      budget: answerLabels[0]?.[quizAnswers[0]] || '',
+      goal: answerLabels[1]?.[quizAnswers[1]] || '',
+      propertyType: answerLabels[2]?.[quizAnswers[2]] || '',
+      area: answerLabels[3]?.[quizAnswers[3]] || '',
+    });
+
+    // Fire and forget — don't block the user experience
+    fetch(`${SHEET_WEBHOOK_URL}?${params.toString()}`, { mode: 'no-cors' }).catch(() => {
+      // Silently fail — lead capture should never block UX
+    });
+
     onSubmit();
   };
 

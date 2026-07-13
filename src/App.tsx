@@ -14,10 +14,12 @@ type Phase = 'landing' | 'preloader' | 'quiz' | 'calculating' | 'lead' | 'handof
 export default function App() {
   const [phase, setPhase] = useState<Phase>('landing');
   const [archetype, setArchetype] = useState<Archetype>('Рантье');
+  const [quizAnswers, setQuizAnswers] = useState<number[]>([]);
 
-  const handleQuizComplete = (quizAnswers: number[]) => {
-    const result = calculateArchetype(quizAnswers);
+  const handleQuizComplete = (answers: number[]) => {
+    const result = calculateArchetype(answers);
     setArchetype(result);
+    setQuizAnswers(answers);
     setPhase('calculating');
   };
 
@@ -80,7 +82,7 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <LeadCapture archetype={archetype} onSubmit={() => setPhase('handoff')} />
+            <LeadCapture archetype={archetype} quizAnswers={quizAnswers} onSubmit={() => setPhase('handoff')} />
           </motion.div>
         )}
 
