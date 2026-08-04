@@ -99,14 +99,14 @@ export function LeadCapture({ archetype, quizAnswers, onSubmit }: { archetype: s
 
         {/* Description */}
         <div className="px-5 md:px-8 pb-4 md:pb-6">
-          <p className="text-black/70 text-xs md:text-sm leading-relaxed font-light text-center">
+          <p className="text-black text-xs md:text-sm leading-relaxed font-light text-center">
             Анализ ваших ответов завершен. Узнайте, какая стратегия на рынке недвижимости Дубая принесёт вам максимальную доходность в текущем цикле
           </p>
         </div>
 
         {/* Unlock items */}
         <div className="px-5 md:px-8 pb-5 md:pb-6">
-          <p className="text-center text-xs md:text-sm text-black/70 font-medium mb-4">
+          <p className="text-center text-xs md:text-sm text-black font-medium mb-4">
             Оставьте свои контакты, чтобы моментально разблокировать:
           </p>
           <div className="flex flex-col gap-3">
@@ -143,7 +143,7 @@ export function LeadCapture({ archetype, quizAnswers, onSubmit }: { archetype: s
               </div>
               <div className="relative z-10 flex-1 min-w-0">
                 <p className="text-sm md:text-base font-bold text-white leading-snug">Специальный PDF-Гайд</p>
-                <p className="text-[11px] md:text-xs text-white/70 mt-1 font-medium leading-snug">«Проекты-лидеры для инвестиций - Июль 2026»</p>
+                <p className="text-[11px] md:text-xs text-white/70 mt-1 font-medium leading-snug">«Проекты-лидеры для инвестиций - Август 2026»</p>
               </div>
               <div className="relative z-10 flex-shrink-0 ml-1">
                 <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white/10 backdrop-blur-md shadow-sm border border-white/20 flex items-center justify-center">
@@ -158,7 +158,7 @@ export function LeadCapture({ archetype, quizAnswers, onSubmit }: { archetype: s
 
         {/* Broker message */}
         <div className="px-5 md:px-8 pt-5 md:pt-6">
-          <p className="text-center text-xs md:text-sm text-black/70 font-light leading-relaxed">
+          <p className="text-center text-xs md:text-sm text-black font-light leading-relaxed">
             Совсем скоро с вами свяжется наш брокер с <span className="font-bold">ИНДИВИДУАЛЬНОЙ</span> подборкой под ваш запрос
           </p>
         </div>

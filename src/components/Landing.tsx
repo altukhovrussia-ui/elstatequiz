@@ -30,7 +30,7 @@ export function Landing({ onStart }: { onStart: () => void }) {
             Начать тест
           </button>
 
-          <p className="text-base md:text-lg text-brand-gray-dark max-w-2xl mx-auto leading-relaxed font-light">
+          <p className="text-base md:text-lg text-black max-w-2xl mx-auto leading-relaxed font-light">
             Пройдите тест из 4 вопросов и узнайте свою идеальную стратегию на рынке недвижимости ОАЭ.
           </p>
         </div>
