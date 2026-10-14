@@ -143,7 +143,7 @@ export function LeadCapture({ archetype, quizAnswers, onSubmit }: { archetype: s
               </div>
               <div className="relative z-10 flex-1 min-w-0">
                 <p className="text-sm md:text-base font-bold text-white leading-snug">Специальный PDF-Гайд</p>
-                <p className="text-[11px] md:text-xs text-white/70 mt-1 font-medium leading-snug">«Проекты-лидеры для инвестиций - Август 2026»</p>
+                <p className="text-[11px] md:text-xs text-white/70 mt-1 font-medium leading-snug">«Проекты-лидеры для инвестиций - Октябрь 2026»</p>
               </div>
               <div className="relative z-10 flex-shrink-0 ml-1">
                 <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white/10 backdrop-blur-md shadow-sm border border-white/20 flex items-center justify-center">
